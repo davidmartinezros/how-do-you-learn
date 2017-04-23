@@ -28,7 +28,7 @@ import io.reactivex.subscribers.ResourceSubscriber;
 @RequestMapping("/api")
 public class LRURestController {
     private CallUrlService lruService;
-    private LinkedHashMap<Integer,UnityKnowledgeString> linkedHashMap;
+    private LinkedHashMap<String,UnityKnowledgeString> linkedHashMap;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -40,29 +40,55 @@ public class LRURestController {
     }
 
     @RequestMapping(value = "/lru/add", method = RequestMethod.POST)
-    public int addStringInCache(@RequestParam("concept") String string) {
+    public UnityKnowledgeString addUnityKnowledgeInCache(@RequestParam("concept") String concept, @RequestParam("description") String description, @RequestParam("image") byte[] image) throws Exception {
     	
-    	UnityKnowledgeString unity = new UnityKnowledgeString(string, null);
+    	UnityKnowledgeString unity = new UnityKnowledgeString(concept, description, image);
     	
-        return lruService.addStringInLRU(unity);
+    	unity = lruService.addUnityKnowledgeStringInLRU(concept, unity);
+    	
+        return unity;
         
+    }
+    
+    @RequestMapping(value = "/lru/addTag", method = RequestMethod.POST)
+    public UnityKnowledgeString addRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
+    	
+    	UnityKnowledgeString unity = lruService.getUnityKnowledgeStringFromLRU(concept);
+    	
+    	unity.addTag(tag);
+    	
+    	return unity;
+    	
+    }
+    
+    @RequestMapping(value = "/lru/addRelation", method = RequestMethod.POST)
+    public UnityKnowledgeString addRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation, @RequestParam("description_relation") String descriptionRelation, @RequestParam("image_relation") byte[] imageRelation) throws Exception {
+    	
+    	UnityKnowledgeString unity = lruService.getUnityKnowledgeStringFromLRU(concept);
+    	
+    	UnityKnowledgeString unityRelation = new UnityKnowledgeString(conceptRelation, descriptionRelation, imageRelation);
+    	
+    	unity.createRelation(unityRelation);
+    	
+    	return unity;
+    	
     }
 
     @RequestMapping(value = "/lru/{key}")
-    public String getStringByKey(@PathVariable int key) throws Exception {
+    public UnityKnowledgeString getStringByKey(@PathVariable String key) throws Exception {
     	
-    	UnityKnowledgeString unity = lruService.getStringFromLRU(key);
+    	UnityKnowledgeString unity = lruService.getUnityKnowledgeStringFromLRU(key);
     	
-    	return unity.getValue();
+    	return unity;
     
     }
 
     @RequestMapping(value = "/lru/state")
-    public LinkedHashMap<Integer,UnityKnowledgeString> getLRUState() throws InterruptedException {
+    public LinkedHashMap<String,UnityKnowledgeString> getLRUState() throws InterruptedException {
 
-        ResourceSubscriber<LinkedHashMap<Integer,UnityKnowledgeString>> subscriber = new ResourceSubscriber<LinkedHashMap<Integer,UnityKnowledgeString>>() {
+        ResourceSubscriber<LinkedHashMap<String,UnityKnowledgeString>> subscriber = new ResourceSubscriber<LinkedHashMap<String,UnityKnowledgeString>>() {
             @Override
-            public void onNext(LinkedHashMap<Integer,UnityKnowledgeString> s) {
+            public void onNext(LinkedHashMap<String,UnityKnowledgeString> s) {
                 linkedHashMap = s;
             }
 

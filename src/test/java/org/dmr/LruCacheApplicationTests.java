@@ -34,13 +34,13 @@ public class LruCacheApplicationTests {
 	@Test
 	public void lru_add_values_with_first_item_removed(){
 		UnityKnowledgeString unity1= new UnityKnowledgeString("aaa", null);
-		lru.put(1, unity1);
+		lru.put("aaa", unity1);
 		UnityKnowledgeString unity2= new UnityKnowledgeString("bbb", null);
-		lru.put(2, unity2);
+		lru.put("bbb", unity2);
 		UnityKnowledgeString unity3= new UnityKnowledgeString("ccc", null);
-		lru.put(3, unity3);
+		lru.put("ccc", unity3);
 		UnityKnowledgeString unity4= new UnityKnowledgeString("ddd", null);
-		lru.put(4, unity4);
+		lru.put("ddd", unity4);
 
 		assertEquals(lru.toString(), "bbb ccc ddd ");
 	}
@@ -48,14 +48,14 @@ public class LruCacheApplicationTests {
 	@Test
 	public void lru_add_values_and_use_first() throws Exception {
 		UnityKnowledgeString unity1= new UnityKnowledgeString("aaa", null);
-		lru.put(1, unity1);
+		lru.put("aaa", unity1);
 		UnityKnowledgeString unity2= new UnityKnowledgeString("bbb", null);
-		lru.put(2, unity2);
+		lru.put("bbb", unity2);
 		UnityKnowledgeString unity3= new UnityKnowledgeString("ccc", null);
-		lru.put(3, unity3);
-		lru.get(1);
+		lru.put("ccc", unity3);
+		lru.get("aaa");
 		UnityKnowledgeString unity4= new UnityKnowledgeString("ddd", null);
-		lru.put(4, unity4);
+		lru.put("ddd", unity4);
 
 		assertEquals(lru.toString(), "ccc aaa ddd ");
 	}
@@ -63,14 +63,14 @@ public class LruCacheApplicationTests {
 	@Test
 	public void lru_add_values_and_use_second() throws Exception {
 		UnityKnowledgeString unity1= new UnityKnowledgeString("aaa", null);
-		lru.put(1, unity1);
+		lru.put("aaa", unity1);
 		UnityKnowledgeString unity2= new UnityKnowledgeString("bbb", null);
-		lru.put(2, unity2);
+		lru.put("bbb", unity2);
 		UnityKnowledgeString unity3= new UnityKnowledgeString("ccc", null);
-		lru.put(3, unity3);
-		lru.get(2);
+		lru.put("ccc", unity3);
+		lru.get("bbb");
 		UnityKnowledgeString unity4= new UnityKnowledgeString("ddd", null);
-		lru.put(4, unity4);
+		lru.put("ddd", unity4);
 
 		assertEquals(lru.toString(), "ccc bbb ddd ");
 	}
@@ -78,14 +78,14 @@ public class LruCacheApplicationTests {
 	@Test(expected = NullPointerException.class)
 	public void lru_add_values_and_get_first() throws Exception {
 		UnityKnowledgeString unity1= new UnityKnowledgeString("aaa", null);
-		lru.put(1, unity1);
+		lru.put("aaa", unity1);
 		UnityKnowledgeString unity2= new UnityKnowledgeString("bbb", null);
-		lru.put(2, unity2);
+		lru.put("bbb", unity2);
 		UnityKnowledgeString unity3= new UnityKnowledgeString("ccc", null);
-		lru.put(3, unity3);
+		lru.put("ccc", unity3);
 		UnityKnowledgeString unity4= new UnityKnowledgeString("ddd", null);
-		lru.put(4, unity4);
-		lru.get(1);
+		lru.put("ddd", unity4);
+		lru.get("aaa");
 	}
 
 }

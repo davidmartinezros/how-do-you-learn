@@ -19,41 +19,34 @@ import org.springframework.stereotype.Service;
 public class CallUrlServiceImpl implements CallUrlService {
 	
     private LruCache lru;
-    private int nextKey;
 
     public CallUrlServiceImpl() {
-        this.lru = LruCacheImpl.getInstance();
+        
+    	this.lru = LruCacheImpl.getInstance();
         this.lru.setLruSize(100);
-        this.nextKey=0;
+        
     }
 
     @Override
-    public int addStringInLRU(final UnityKnowledgeString string) {
+    public UnityKnowledgeString addUnityKnowledgeStringInLRU(final String concept, final UnityKnowledgeString unity) {
     	
-        int newKey = getNewKey();
-        lru.put(newKey,string);
-
-        return newKey;
+        lru.put(concept, unity);
+        
+        return unity;
+        
     }
 
     @Override
-    public UnityKnowledgeString getStringFromLRU(final int key) throws Exception {
+    public UnityKnowledgeString getUnityKnowledgeStringFromLRU(final String concept) throws Exception {
     	
-        return lru.get(key);
+        return lru.get(concept);
     
     }
 
     @Override
-    public LinkedHashMap<Integer,UnityKnowledgeString> getLRUState() {
+    public LinkedHashMap<String, UnityKnowledgeString> getLRUState() {
     	
         return lru.getLru();
-        
-    }
-
-    private int getNewKey(){
-    	
-        this.nextKey++;
-        return nextKey;
         
     }
     

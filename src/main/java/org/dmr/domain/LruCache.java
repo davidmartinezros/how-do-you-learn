@@ -15,10 +15,10 @@ public interface LruCache {
 	
 	void setLruSize(int lruSize);
 	
-    void put(int key, UnityKnowledgeString value);
+	void put(String key, UnityKnowledgeString value);
 
-    UnityKnowledgeString get(int key) throws Exception;
+    UnityKnowledgeString get(String key) throws Exception;
 
-    LinkedHashMap<Integer,UnityKnowledgeString> getLru();
+    LinkedHashMap<String,UnityKnowledgeString> getLru();
     
 }

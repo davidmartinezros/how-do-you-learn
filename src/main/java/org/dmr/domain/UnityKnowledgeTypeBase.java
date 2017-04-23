@@ -1,5 +1,7 @@
 package org.dmr.domain;
 
+;
+
 /**
  * Created by davidmartinezros on 22/04/2017.
  * 
@@ -7,8 +9,10 @@ package org.dmr.domain;
  * 
  * web: http://davidmartinezros.com
  */
-public interface UnityKnowledgeTypeBase {
-
+public interface UnityKnowledgeTypeBase<T> {
+	
+	T getConcept();
+	
 	String getValue();
 
 }

@@ -1,7 +1,5 @@
 package org.dmr.domain.impl;
 
-import org.w3c.dom.html.HTMLImageElement;
-
 /**
  * Created by davidmartinezros on 22/04/2017.
  * 
@@ -11,8 +9,12 @@ import org.w3c.dom.html.HTMLImageElement;
  */
 public class UnityKnowledgeString extends UnityKnowledge<String> {
 
-	public UnityKnowledgeString(String concept, HTMLImageElement image) {
+	public UnityKnowledgeString(String concept, byte[] image) {
 		super(concept, image);
+	}
+	
+	public UnityKnowledgeString(String concept, String description, byte[] image) {
+		super(concept, description, image);
 	}
 	
 }

@@ -7,11 +7,11 @@ package org.dmr.domain;
  * 
  * web: http://davidmartinezros.com
  */
-public interface UnityKnowledgeType<K> extends UnityKnowledgeTypeBase {
+public interface UnityKnowledgeType<T> extends UnityKnowledgeTypeBase<T> {
 
 	void addTag(String tag);
 
-	void createRelation(UnityKnowledgeType<K> unity);
+	void createRelation(UnityKnowledgeType<T> unity);
 
 	void modifyDescription(String description);
 

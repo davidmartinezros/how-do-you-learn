@@ -15,7 +15,7 @@ import org.dmr.domain.LruCache;
 public class LruCacheImpl implements LruCache {
 	
     private static LruCacheImpl ourInstance;
-    private LinkedHashMap<Integer,UnityKnowledgeString> lruMap;
+    private LinkedHashMap<String,UnityKnowledgeString> lruMap;
     private int lruSize = 0;
 
     public static LruCacheImpl getInstance() {
@@ -35,7 +35,7 @@ public class LruCacheImpl implements LruCache {
     }
     
     @Override
-    public void put(int key, UnityKnowledgeString value) {
+    public void put(String key, UnityKnowledgeString value) {
         if(lruMap.values().size()>=lruSize){
             lruMap.remove(lruMap.keySet().iterator().next());
         }
@@ -43,7 +43,7 @@ public class LruCacheImpl implements LruCache {
     }
     
     @Override
-    public UnityKnowledgeString get(int key) throws Exception {
+    public UnityKnowledgeString get(String key) throws Exception {
         if(lruMap.get(key)!=null){
             final UnityKnowledgeString value = lruMap.get(key);
             lruMap.remove(key);
@@ -55,7 +55,7 @@ public class LruCacheImpl implements LruCache {
     }
 
     @Override
-    public LinkedHashMap<Integer, UnityKnowledgeString> getLru() {
+    public LinkedHashMap<String, UnityKnowledgeString> getLru() {
         return this.lruMap;
     }
 
@@ -63,7 +63,7 @@ public class LruCacheImpl implements LruCache {
     public String toString(){
         String lruString = "";
         for (UnityKnowledgeString value : lruMap.values()) {
-            lruString = lruString + value + " ";
+            lruString = lruString + value.getConcept() + " ";
         }
         return lruString;
     }
