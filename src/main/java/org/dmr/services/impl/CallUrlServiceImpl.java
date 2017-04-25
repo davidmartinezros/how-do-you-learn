@@ -1,6 +1,6 @@
 package org.dmr.services.impl;
 
-import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.dmr.domain.LruCache;
 import org.dmr.domain.impl.LruCacheImpl;
@@ -44,7 +44,7 @@ public class CallUrlServiceImpl implements CallUrlService {
     }
 
     @Override
-    public LinkedHashMap<String, UnityKnowledgeString> getLRUState() {
+    public List<UnityKnowledgeString> getLRUState() {
     	
         return lru.getLru();
         

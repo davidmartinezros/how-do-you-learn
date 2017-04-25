@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dmr.domain.UnityKnowledgeType;
+import org.springframework.data.annotation.Id;
 
 /**
  * Created by davidmartinezros on 22/04/2017.
@@ -19,8 +20,11 @@ import org.dmr.domain.UnityKnowledgeType;
  * It can be any Object: String, Boolean, Number, Date, Object, null, undefined
  */
 public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
-    
-    // concepte que estable el coneixement
+	
+    // id de la base de dades mongoDB
+	@Id
+	public String id;
+	// concepte que estable el coneixement
     T concept;
     // Necessito fer un mecanisme que extregui informacio d'una imatge, per associar-la a unitat de coneixement
     // La imatge associada al concepte estable el coneixement
@@ -60,6 +64,14 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
         return this.toString();
     
     }
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
     
     public byte[] getImage() {
 		return image;

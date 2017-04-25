@@ -8,7 +8,7 @@ package org.dmr.domain.impl;
  * web: http://davidmartinezros.com
  */
 public class UnityKnowledgeString extends UnityKnowledge<String> {
-
+	
 	public UnityKnowledgeString(String concept, byte[] image) {
 		super(concept, image);
 	}

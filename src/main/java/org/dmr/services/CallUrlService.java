@@ -1,6 +1,6 @@
 package org.dmr.services;
 
-import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.dmr.domain.impl.UnityKnowledgeString;
 
@@ -13,6 +13,6 @@ public interface CallUrlService {
     
     UnityKnowledgeString getUnityKnowledgeStringFromLRU(final String concept) throws Exception;
     
-    LinkedHashMap<String, UnityKnowledgeString> getLRUState();
+    public List<UnityKnowledgeString> getLRUState();
     
 }

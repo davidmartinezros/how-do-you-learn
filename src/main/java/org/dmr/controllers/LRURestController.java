@@ -1,6 +1,7 @@
 package org.dmr.controllers;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.dmr.domain.impl.UnityKnowledgeString;
 import org.dmr.services.CallUrlService;
@@ -28,14 +29,14 @@ import io.reactivex.subscribers.ResourceSubscriber;
 @RequestMapping("/api")
 public class LRURestController {
     private CallUrlService lruService;
-    private LinkedHashMap<String,UnityKnowledgeString> linkedHashMap;
+    private List<UnityKnowledgeString> linkedHashMap;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public LRURestController(CallUrlService lruService) {
     	
         this.lruService = lruService;
-        this.linkedHashMap = new LinkedHashMap<>();
+        this.linkedHashMap = new ArrayList<>();
         
     }
 
@@ -84,11 +85,11 @@ public class LRURestController {
     }
 
     @RequestMapping(value = "/lru/state")
-    public LinkedHashMap<String,UnityKnowledgeString> getLRUState() throws InterruptedException {
+    public List<UnityKnowledgeString> getLRUState() throws InterruptedException {
 
-        ResourceSubscriber<LinkedHashMap<String,UnityKnowledgeString>> subscriber = new ResourceSubscriber<LinkedHashMap<String,UnityKnowledgeString>>() {
+        ResourceSubscriber<List<UnityKnowledgeString>> subscriber = new ResourceSubscriber<List<UnityKnowledgeString>>() {
             @Override
-            public void onNext(LinkedHashMap<String,UnityKnowledgeString> s) {
+            public void onNext(List<UnityKnowledgeString> s) {
                 linkedHashMap = s;
             }
 

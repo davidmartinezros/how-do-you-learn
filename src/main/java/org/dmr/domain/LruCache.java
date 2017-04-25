@@ -1,6 +1,6 @@
 package org.dmr.domain;
 
-import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.dmr.domain.impl.UnityKnowledgeString;
 
@@ -19,6 +19,6 @@ public interface LruCache {
 
     UnityKnowledgeString get(String key) throws Exception;
 
-    LinkedHashMap<String,UnityKnowledgeString> getLru();
+    public List<UnityKnowledgeString> getLru();
     
 }
