@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.dmr.domain.LruCache;
 import org.dmr.repositories.UnityKnowledgeRepositoryString;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by davidmartinezros on 22/04/2017.
@@ -17,21 +16,21 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class LruCacheImpl implements LruCache {
 	
-	@Autowired
 	private UnityKnowledgeRepositoryString repository;
 	
     private static LruCacheImpl ourInstance;
     private LinkedHashMap<String,UnityKnowledgeString> lruMap;
     private int lruSize = 0;
 
-    public static LruCacheImpl getInstance() {
+    public static LruCacheImpl getInstance(UnityKnowledgeRepositoryString repository) {
     	if(ourInstance == null) {
-    		ourInstance = new LruCacheImpl();
+    		ourInstance = new LruCacheImpl(repository);
     	}
         return ourInstance;
     }
 
-    public LruCacheImpl() {
+    public LruCacheImpl(UnityKnowledgeRepositoryString repository) {
+    	this.repository = repository;
         this.lruMap = new LinkedHashMap<>();
     }
     

@@ -35,6 +35,10 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     List<String> tags;
     // Relacions amb altres unitats de coneixement
     List<UnityKnowledgeType<T>> relations;
+    
+    public UnityKnowledge() {
+    	
+    }
 
     // la creacio d'una unitat de coneixement es la relacio entre un concepte i una imatge
 	public UnityKnowledge(T concept, byte[] image) {

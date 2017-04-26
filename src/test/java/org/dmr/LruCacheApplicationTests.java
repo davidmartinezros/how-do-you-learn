@@ -27,7 +27,7 @@ public class LruCacheApplicationTests {
 
 	@Before
 	public void setUp(){
-		lru = LruCacheImpl.getInstance();
+		lru = LruCacheImpl.getInstance(null);
 		lru.setLruSize(3);
 	}
 

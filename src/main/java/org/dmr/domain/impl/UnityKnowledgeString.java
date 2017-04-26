@@ -9,6 +9,10 @@ package org.dmr.domain.impl;
  */
 public class UnityKnowledgeString extends UnityKnowledge<String> {
 	
+	public UnityKnowledgeString() {
+		super();
+	}
+	
 	public UnityKnowledgeString(String concept, byte[] image) {
 		super(concept, image);
 	}

@@ -1,0 +1,24 @@
+
+spring:
+    datasource:
+        url: jdbc:oracle:thin:@//localhost:27017/howdyl
+        username: david
+        password: tochange
+        driver-class-name: mongodb.jdbc.MongoDriver
+    jpa:
+        # Crea les taules a la BD automàticament
+        # Només ho activem quan volem fer canvis a la BD perquè fa 
+        # que l'aplicació trigui molt en arrencar
+        # generate-ddl: true    
+        show-sql: true            
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: davidnezan@gmail.com
+        password: 3david35        
+        smtp.auth: true
+        smtp.starttls.enable: true
+        
+hibernate:
+    showSql: true
+    dialect: org.hibernate.dialect.Oracle10gDialect

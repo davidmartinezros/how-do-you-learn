@@ -5,6 +5,7 @@ import java.util.List;
 import org.dmr.domain.LruCache;
 import org.dmr.domain.impl.LruCacheImpl;
 import org.dmr.domain.impl.UnityKnowledgeString;
+import org.dmr.repositories.UnityKnowledgeRepositoryString;
 import org.dmr.services.CallUrlService;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,9 @@ public class CallUrlServiceImpl implements CallUrlService {
 	
     private LruCache lru;
 
-    public CallUrlServiceImpl() {
+    public CallUrlServiceImpl(UnityKnowledgeRepositoryString repository) {
         
-    	this.lru = LruCacheImpl.getInstance();
+    	this.lru = LruCacheImpl.getInstance(repository);
         this.lru.setLruSize(100);
         
     }
