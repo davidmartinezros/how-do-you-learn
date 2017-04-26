@@ -9,10 +9,12 @@ import org.dmr.domain.impl.UnityKnowledgeString;
  */
 public interface CallUrlService {
     
-	UnityKnowledgeString addUnityKnowledgeStringInLRU(UnityKnowledgeString unity);
+	UnityKnowledgeString addUnity(UnityKnowledgeString unity);
+	
+	void deleteUnity(UnityKnowledgeString unity);
     
-    UnityKnowledgeString getUnityKnowledgeStringFromLRU(String concept) throws Exception;
+    UnityKnowledgeString getUnity(String concept) throws Exception;
     
-    public List<UnityKnowledgeString> getLRUState();
+    public List<UnityKnowledgeString> getList();
     
 }

@@ -10,8 +10,12 @@ package org.dmr.domain;
 public interface UnityKnowledgeType<T> extends UnityKnowledgeTypeBase<T> {
 
 	void addTag(String tag);
+	
+	void removeTag(String tag);
 
-	void createRelation(UnityKnowledgeType<T> unity);
+	void addRelation(UnityKnowledgeType<T> unity);
+	
+	void removeRelation(UnityKnowledgeType<T> unity);
 
 	void modifyDescription(String description);
 

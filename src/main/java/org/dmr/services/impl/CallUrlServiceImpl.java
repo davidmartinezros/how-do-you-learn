@@ -24,9 +24,9 @@ public class CallUrlServiceImpl implements CallUrlService {
     public CallUrlServiceImpl() {
         
     }
-
+    
     @Override
-    public UnityKnowledgeString addUnityKnowledgeStringInLRU(UnityKnowledgeString unity) {
+    public UnityKnowledgeString addUnity(UnityKnowledgeString unity) {
         
     	unity = repository.save(unity);
     	
@@ -35,14 +35,21 @@ public class CallUrlServiceImpl implements CallUrlService {
     }
 
     @Override
-    public UnityKnowledgeString getUnityKnowledgeStringFromLRU(final String concept) throws Exception {
+    public void deleteUnity(UnityKnowledgeString unity) {
+        
+    	repository.delete(unity);
+        
+    }
+
+    @Override
+    public UnityKnowledgeString getUnity(final String concept) throws Exception {
     
     	return repository.findByConcept(concept);
     	
     }
 
     @Override
-    public List<UnityKnowledgeString> getLRUState() {
+    public List<UnityKnowledgeString> getList() {
     	
     	return repository.findAll();
         
