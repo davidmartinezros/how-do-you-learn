@@ -2,11 +2,10 @@ package org.dmr.services.impl;
 
 import java.util.List;
 
-import org.dmr.domain.LruCache;
-import org.dmr.domain.impl.LruCacheImpl;
 import org.dmr.domain.impl.UnityKnowledgeString;
 import org.dmr.repositories.UnityKnowledgeRepositoryString;
 import org.dmr.services.CallUrlService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,34 +18,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class CallUrlServiceImpl implements CallUrlService {
 	
-    private LruCache lru;
+	@Autowired
+	UnityKnowledgeRepositoryString repository;
 
-    public CallUrlServiceImpl(UnityKnowledgeRepositoryString repository) {
-        
-    	this.lru = LruCacheImpl.getInstance(repository);
+    public CallUrlServiceImpl() {
         
     }
 
     @Override
-    public UnityKnowledgeString addUnityKnowledgeStringInLRU(final String concept, final UnityKnowledgeString unity) {
-    	
-        lru.put(concept, unity);
+    public UnityKnowledgeString addUnityKnowledgeStringInLRU(String concept, UnityKnowledgeString unity) {
         
+    	unity = repository.save(unity);
+    	
         return unity;
         
     }
 
     @Override
     public UnityKnowledgeString getUnityKnowledgeStringFromLRU(final String concept) throws Exception {
-    	
-        return lru.get(concept);
     
+    	return repository.findByConcept(concept);
+    	
     }
 
     @Override
     public List<UnityKnowledgeString> getLRUState() {
     	
-        return lru.getLru();
+    	return repository.findAll();
         
     }
     
