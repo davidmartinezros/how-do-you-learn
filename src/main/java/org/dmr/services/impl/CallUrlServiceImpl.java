@@ -24,7 +24,6 @@ public class CallUrlServiceImpl implements CallUrlService {
     public CallUrlServiceImpl(UnityKnowledgeRepositoryString repository) {
         
     	this.lru = LruCacheImpl.getInstance(repository);
-        this.lru.setLruSize(100);
         
     }
 

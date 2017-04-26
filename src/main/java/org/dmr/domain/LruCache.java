@@ -13,8 +13,6 @@ import org.dmr.domain.impl.UnityKnowledgeString;
  */
 public interface LruCache {
 	
-	void setLruSize(int lruSize);
-	
 	void put(String key, UnityKnowledgeString value);
 
     UnityKnowledgeString get(String key) throws Exception;

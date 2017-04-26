@@ -28,15 +28,16 @@ import io.reactivex.subscribers.ResourceSubscriber;
 @RestController
 @RequestMapping("/api")
 public class LRURestController {
-    private CallUrlService lruService;
+	
+	@Autowired
+	private CallUrlService lruService;
+	
     private List<UnityKnowledgeString> linkedHashMap;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    public LRURestController(CallUrlService lruService) {
+    
+    public LRURestController() {
     	
-        this.lruService = lruService;
-        this.linkedHashMap = new ArrayList<>();
+    	this.linkedHashMap = new ArrayList<>();
         
     }
 
