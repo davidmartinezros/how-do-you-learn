@@ -9,7 +9,7 @@ import org.dmr.domain.impl.UnityKnowledgeString;
  */
 public interface CallUrlService {
     
-	UnityKnowledgeString addUnityKnowledgeStringInLRU(String concept, UnityKnowledgeString unity);
+	UnityKnowledgeString addUnityKnowledgeStringInLRU(UnityKnowledgeString unity);
     
     UnityKnowledgeString getUnityKnowledgeStringFromLRU(String concept) throws Exception;
     

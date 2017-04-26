@@ -26,7 +26,7 @@ public class CallUrlServiceImpl implements CallUrlService {
     }
 
     @Override
-    public UnityKnowledgeString addUnityKnowledgeStringInLRU(String concept, UnityKnowledgeString unity) {
+    public UnityKnowledgeString addUnityKnowledgeStringInLRU(UnityKnowledgeString unity) {
         
     	unity = repository.save(unity);
     	
