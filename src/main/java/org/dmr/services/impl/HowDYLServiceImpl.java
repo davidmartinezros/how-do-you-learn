@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.dmr.domain.impl.UnityKnowledgeString;
 import org.dmr.repositories.UnityKnowledgeRepositoryString;
-import org.dmr.services.CallUrlService;
+import org.dmr.services.HowDYLService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +16,17 @@ import org.springframework.stereotype.Service;
  * web: http://davidmartinezros.com
  */
 @Service
-public class CallUrlServiceImpl implements CallUrlService {
+public class HowDYLServiceImpl implements HowDYLService {
 	
 	@Autowired
 	UnityKnowledgeRepositoryString repository;
 
-    public CallUrlServiceImpl() {
+    public HowDYLServiceImpl() {
         
     }
     
     @Override
-    public UnityKnowledgeString addUnity(UnityKnowledgeString unity) {
+    public UnityKnowledgeString saveUnity(UnityKnowledgeString unity) {
         
     	unity = repository.save(unity);
     	

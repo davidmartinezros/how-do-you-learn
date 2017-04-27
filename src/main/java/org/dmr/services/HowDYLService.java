@@ -7,9 +7,9 @@ import org.dmr.domain.impl.UnityKnowledgeString;
 /**
  * Created by davidmartinezros on 22/04/2017.
  */
-public interface CallUrlService {
+public interface HowDYLService {
     
-	UnityKnowledgeString addUnity(UnityKnowledgeString unity);
+	UnityKnowledgeString saveUnity(UnityKnowledgeString unity);
 	
 	void deleteUnity(UnityKnowledgeString unity);
     
