@@ -1,0 +1,110 @@
+{
+	"variables": [],
+	"info": {
+		"name": "how-do-you-learn",
+		"_postman_id": "b86ae009-addf-27a5-24f6-c31312248fff",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/howdyl/state",
+			"request": {
+				"url": "{{url}}/api/howdyl/state",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/list",
+			"request": {
+				"url": "{{url}}/api/howdyl/list",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/key",
+			"request": {
+				"url": "{{url}}/api/howdyl/david",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/addUnity",
+			"request": {
+				"url": "{{url}}/api/howdyl/addUnity?concept=ee&description=software engineer and developer&image",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/removeUnity",
+			"request": {
+				"url": "{{url}}/api/howdyl/removeUnity?concept=bb",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/addTag",
+			"request": {
+				"url": "{{url}}/api/howdyl/addTag?concept=david&tag=aaa",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/removeTag",
+			"request": {
+				"url": "{{url}}/api/howdyl/removeTag?concept=aa&tag=dd",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/addRelation",
+			"request": {
+				"url": "{{url}}/api/howdyl/addRelation?concept=ee&concept_relation=aa",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/removeRelation",
+			"request": {
+				"url": "{{url}}/api/howdyl/removeRelation?concept=aa&concept_relation=dd",
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

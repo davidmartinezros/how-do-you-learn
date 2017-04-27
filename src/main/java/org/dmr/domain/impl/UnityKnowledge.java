@@ -128,27 +128,58 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     @Override
     public void addTag(String tag) {
 
-        this.tags.add(tag);
+    	if(!this.tags.contains(tag)) {
+    		
+    		this.tags.add(tag);
+    		
+    	}
     
     }
     
     @Override
-    public void createRelation(UnityKnowledgeType<T> unity) {
-        
-        this.relations.add(unity);
+    public void removeTag(String tag) {
 
-        this.addTag(unity.getConcept().toString());
+    	if(this.tags.contains(tag)) {
+    		
+    		this.tags.remove(tag);
+    		
+    	}
+    
+    }
+    
+    @Override
+    public void addRelation(UnityKnowledgeType<T> unity) {
+        
+    	if(!this.relations.contains(unity)) {
+    		
+    		this.relations.add(unity);
+    		
+    	}
+    
+    }
+    
+    @Override
+    public void removeRelation(UnityKnowledgeType<T> unity) {
+        
+    	if(this.relations.contains(unity)) {
+    		
+    		this.relations.remove(unity);
+    		
+    	}
     
     }
     
     @Override
 	public String toString() {
+    	
 		return "UnityKnowledge [concept=" + concept + ", image=" + Arrays.toString(image) + ", description="
 				+ description + ", tags=" + tags + ", relations=" + relations + "]";
+		
 	}
 
 	@Override
 	public int hashCode() {
+		
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((concept == null) ? 0 : concept.hashCode());
@@ -157,10 +188,12 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 		result = prime * result + ((relations == null) ? 0 : relations.hashCode());
 		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
 		return result;
+		
 	}
 
 	@Override
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -191,6 +224,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 		} else if (!tags.equals(other.tags))
 			return false;
 		return true;
+		
 	}
     
 }

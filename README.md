@@ -21,3 +21,19 @@ A Critery is an amount of Idees that are interelationated of any Unity Knowledge
 ## Personality
 
 A Personality is an amount of Criteries that this Human Mind arrive to.
+
+# Versions
+
+## Version 1.0.0-SNAPSHOT
+
+Implementation of the Controller, the Service and the LRU Cache.
+
+The data is saved in a LRU Cache.
+
+## Version 2.0.0-SNAPSHOT
+
+The data consists in a UnityKnowledge with concept, description and image and list of tags and list of relations.
+The list of tags is a List of String.
+The list of relations is a List of UnityKnowledge.
+
+Integration of MongoDB and save the data to it.
