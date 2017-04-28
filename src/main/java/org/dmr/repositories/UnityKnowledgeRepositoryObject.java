@@ -19,7 +19,10 @@ public interface UnityKnowledgeRepositoryObject extends MongoRepository<UnityKno
 	
     public UnityKnowledgeObject findByConcept(Object concept);
     
-    @Query(value = "{$where: 'this.id' == ?0 $and 'this.relations.id == ?1'}", delete = true)
-    public void deleteRelations(String id, String idRelation);
+    @Query(value = "{ $and: [ { concept: ?0 } , { concept: ?1 } ] }", delete = true)
+    public void deleteExampleWithTwoParameters(String id, Object concept);
+    
+    @Query(value = "{ concept: ?0 }", delete = true)
+    public void deleteUnityByConcept(Object concept);
 
 }
