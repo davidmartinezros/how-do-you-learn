@@ -6,6 +6,9 @@ import org.dmr.domain.impl.UnityKnowledgeObject;
 import org.dmr.repositories.UnityKnowledgeRepositoryObject;
 import org.dmr.services.HowDYLService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +23,9 @@ public class HowDYLServiceImpl implements HowDYLService {
 	
 	@Autowired
 	UnityKnowledgeRepositoryObject repository;
+	
+	@Autowired
+	MongoOperations mongoOperation;
 
     public HowDYLServiceImpl() {
         
@@ -39,6 +45,22 @@ public class HowDYLServiceImpl implements HowDYLService {
         
     	repository.delete(unity);
         
+    }
+    
+    @Override
+    public void deleteRelation(UnityKnowledgeObject unity, UnityKnowledgeObject unityRelation) {
+    	
+    	//repository.deleteRelations(unity.getId(), unityRelation.getId());
+    	
+    	Query query = new Query();
+		query.addCriteria(
+			Criteria.where("id").is(unity.getId())
+			.andOperator(
+					Criteria.where("relations.id").is(unityRelation.getId())
+					)
+			);
+		mongoOperation.remove(query, UnityKnowledgeObject.class);
+    	
     }
 
     @Override

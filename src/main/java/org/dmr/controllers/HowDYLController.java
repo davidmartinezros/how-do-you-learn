@@ -54,11 +54,13 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/removeUnity", method = RequestMethod.POST)
-    public void removeUnityKnowledge(@RequestParam("concept") String concept) throws Exception {
+    public UnityKnowledgeObject removeUnityKnowledge(@RequestParam("concept") String concept) throws Exception {
     	
     	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
     	
     	howDYLService.deleteUnity(unity);
+    	
+    	return unity;
         
     }
     
@@ -69,7 +71,6 @@ public class HowDYLController {
     		
     	unity.addTag(tag);
     	
-    	// actualitzem la unity
     	unity = howDYLService.saveUnity(unity);
     	
     	return unity;
@@ -83,7 +84,6 @@ public class HowDYLController {
     		
     	unity.removeTag(tag);
     	
-    	// actualitzem la unity
     	unity = howDYLService.saveUnity(unity);
     	
     	return unity;
@@ -99,7 +99,6 @@ public class HowDYLController {
 	    	
 	    unity.addRelation(unityRelation);
 	    
-	    // actualitzem la unity
 	    unity = howDYLService.saveUnity(unity);
 	    
     	return unity;
@@ -112,14 +111,13 @@ public class HowDYLController {
     	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
     		
     	UnityKnowledgeObject unityRelation = howDYLService.getUnity(conceptRelation);
-	    	
-	    unity.removeRelation(unityRelation);
-	    
-	    // actualitzem la unity
+    	
+    	unity.removeRelation(unityRelation);
+    	
 	    unity = howDYLService.saveUnity(unity);
 	    
-    	return unity;
-    	
+	    return unity;
+	    
     }
     
     @RequestMapping(value = "/howdyl/modifyDescription", method = RequestMethod.POST)
@@ -129,7 +127,6 @@ public class HowDYLController {
 	    	
 	    unity.modifyDescription(description);
 	    
-	    // actualitzem la unity
 	    unity = howDYLService.saveUnity(unity);
 	    
     	return unity;
@@ -160,7 +157,7 @@ public class HowDYLController {
 
             @Override
             public void onComplete() {
-                log.info("Complete");
+                log.info("Complete List Search");
             }
             
         };
