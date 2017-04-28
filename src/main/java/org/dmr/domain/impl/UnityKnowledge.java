@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dmr.domain.UnityKnowledgeType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  * Created by davidmartinezros on 22/04/2017.
@@ -34,6 +36,9 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 	private List<String> tags;
     // Relacions amb altres unitats de coneixement
 	private List<UnityKnowledgeObject> relations;
+	
+	@Autowired
+    MongoTemplate mongoTemplate;
     
     public UnityKnowledge() {
     	
@@ -155,14 +160,36 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
         
     	if(this.relations.contains(unity)) {
     		
-//    		BasicDBObject match = new BasicDBObject("id", this.id);
-//    		
-//    		BasicDBObject update = new BasicDBObject("id", unity.getId());
-    		
     		this.relations.remove(unity);
     		
     	}
     
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UnityKnowledge<T> other = (UnityKnowledge<T>) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
     
 }

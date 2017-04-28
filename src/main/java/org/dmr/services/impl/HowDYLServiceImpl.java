@@ -40,6 +40,13 @@ public class HowDYLServiceImpl implements HowDYLService {
     	repository.delete(unity);
         
     }
+    
+    @Override
+    public void deleteRelation(UnityKnowledgeObject unity, UnityKnowledgeObject unityRelation) {
+    	
+    	repository.deleteRelations(unity.getId(), unityRelation.getId());
+    	
+    }
 
     @Override
     public UnityKnowledgeObject getUnity(Object concept) throws Exception {

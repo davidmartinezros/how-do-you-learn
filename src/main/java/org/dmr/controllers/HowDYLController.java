@@ -107,18 +107,13 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/removeRelation", method = RequestMethod.POST)
-    public UnityKnowledgeObject removeRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
+    public void removeRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
     	
     	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
     		
     	UnityKnowledgeObject unityRelation = howDYLService.getUnity(conceptRelation);
-	    	
-	    unity.removeRelation(unityRelation);
 	    
-	    // actualitzem la unity
-	    unity = howDYLService.saveUnity(unity);
-	    
-    	return unity;
+	    howDYLService.deleteRelation(unity, unityRelation);
     	
     }
     
