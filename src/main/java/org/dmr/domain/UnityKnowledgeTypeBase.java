@@ -12,7 +12,5 @@ package org.dmr.domain;
 public interface UnityKnowledgeTypeBase<T> {
 	
 	T getConcept();
-	
-	String getValue();
 
 }

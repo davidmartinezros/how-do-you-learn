@@ -2,8 +2,8 @@ package org.dmr.services.impl;
 
 import java.util.List;
 
-import org.dmr.domain.impl.UnityKnowledgeString;
-import org.dmr.repositories.UnityKnowledgeRepositoryString;
+import org.dmr.domain.impl.UnityKnowledgeObject;
+import org.dmr.repositories.UnityKnowledgeRepositoryObject;
 import org.dmr.services.HowDYLService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ import org.springframework.stereotype.Service;
 public class HowDYLServiceImpl implements HowDYLService {
 	
 	@Autowired
-	UnityKnowledgeRepositoryString repository;
+	UnityKnowledgeRepositoryObject repository;
 
     public HowDYLServiceImpl() {
         
     }
     
     @Override
-    public UnityKnowledgeString saveUnity(UnityKnowledgeString unity) {
+    public UnityKnowledgeObject saveUnity(UnityKnowledgeObject unity) {
         
     	unity = repository.save(unity);
     	
@@ -35,21 +35,21 @@ public class HowDYLServiceImpl implements HowDYLService {
     }
 
     @Override
-    public void deleteUnity(UnityKnowledgeString unity) {
+    public void deleteUnity(UnityKnowledgeObject unity) {
         
     	repository.delete(unity);
         
     }
 
     @Override
-    public UnityKnowledgeString getUnity(final String concept) throws Exception {
+    public UnityKnowledgeObject getUnity(Object concept) throws Exception {
     
     	return repository.findByConcept(concept);
     	
     }
 
     @Override
-    public List<UnityKnowledgeString> getList() {
+    public List<UnityKnowledgeObject> getList() {
     	
     	return repository.findAll();
         
