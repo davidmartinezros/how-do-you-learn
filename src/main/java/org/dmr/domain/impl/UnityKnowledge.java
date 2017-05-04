@@ -1,7 +1,6 @@
 package org.dmr.domain.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.dmr.domain.UnityKnowledgeType;
@@ -16,8 +15,9 @@ import org.springframework.data.annotation.Id;
  */
 
 /**
- * <T> is a Generic Type
- * It can be any Object: String, Boolean, Number, Date, Object, null, undefined
+ * T is a Generic Type that defines the <b>Concept Type of the UnityKnowledge</b>.<br/>
+ * K is a Generic Type that defines the <b>Concept Type of the UnityKnowledge Relation</b>.<br/>
+ * A Generic Type can be <b>Any Object</b>: String, Boolean, Number, Date, Object, null, undefined.
  */
 public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 	
@@ -34,7 +34,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     // Criteris pels que pots buscar la unitat de coneixement
     List<String> tags;
     // Relacions amb altres unitats de coneixement
-    List<UnityKnowledgeType<T>> relations;
+    List<UnityKnowledgeObject> relations;
     
     public UnityKnowledge() {
     	
@@ -48,7 +48,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
         this.image = image;
         
         // info complementaria
-        this.relations = new ArrayList<UnityKnowledgeType<T>>();
+        this.relations = new ArrayList<UnityKnowledgeObject>();
         this.tags = new ArrayList<String>();
         this.description = "";
     
@@ -61,13 +61,6 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 		this.description = description;
 	
 	}
-	
-	@Override
-    public String getValue() {
-		
-        return this.toString();
-    
-    }
 	
 	public String getId() {
 		return id;
@@ -101,11 +94,11 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 		this.tags = tags;
 	}
 
-	public List<UnityKnowledgeType<T>> getRelations() {
+	public List<UnityKnowledgeObject> getRelations() {
 		return relations;
 	}
 
-	public void setRelations(List<UnityKnowledgeType<T>> relations) {
+	public void setRelations(List<UnityKnowledgeObject> relations) {
 		this.relations = relations;
 	}
 	
@@ -124,6 +117,13 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
         this.description = description;
 
     }
+	
+	@Override
+	public void modifyImage(byte[] image) {
+		
+		this.image = image;
+		
+	}
     
     @Override
     public void addTag(String tag) {
@@ -148,7 +148,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     }
     
     @Override
-    public void addRelation(UnityKnowledgeType<T> unity) {
+    public void addRelation(UnityKnowledgeObject unity) {
         
     	if(!this.relations.contains(unity)) {
     		
@@ -159,7 +159,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     }
     
     @Override
-    public void removeRelation(UnityKnowledgeType<T> unity) {
+    public void removeRelation(UnityKnowledgeObject unity) {
         
     	if(this.relations.contains(unity)) {
     		
@@ -168,63 +168,5 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     	}
     
     }
-    
-    @Override
-	public String toString() {
-    	
-		return "UnityKnowledge [concept=" + concept + ", image=" + Arrays.toString(image) + ", description="
-				+ description + ", tags=" + tags + ", relations=" + relations + "]";
-		
-	}
-
-	@Override
-	public int hashCode() {
-		
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((concept == null) ? 0 : concept.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + Arrays.hashCode(image);
-		result = prime * result + ((relations == null) ? 0 : relations.hashCode());
-		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
-		return result;
-		
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UnityKnowledge other = (UnityKnowledge) obj;
-		if (concept == null) {
-			if (other.concept != null)
-				return false;
-		} else if (!concept.equals(other.concept))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (!Arrays.equals(image, other.image))
-			return false;
-		if (relations == null) {
-			if (other.relations != null)
-				return false;
-		} else if (!relations.equals(other.relations))
-			return false;
-		if (tags == null) {
-			if (other.tags != null)
-				return false;
-		} else if (!tags.equals(other.tags))
-			return false;
-		return true;
-		
-	}
     
 }

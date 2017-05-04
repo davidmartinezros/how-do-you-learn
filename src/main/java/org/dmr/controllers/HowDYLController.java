@@ -3,7 +3,7 @@ package org.dmr.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dmr.domain.impl.UnityKnowledgeString;
+import org.dmr.domain.impl.UnityKnowledgeObject;
 import org.dmr.services.HowDYLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class HowDYLController {
 	@Autowired
     private HowDYLService howDYLService;
 	
-    private List<UnityKnowledgeString> list;
+    private List<UnityKnowledgeObject> list;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     
     public HowDYLController() {
@@ -42,9 +42,9 @@ public class HowDYLController {
     }
 
     @RequestMapping(value = "/howdyl/addUnity", method = RequestMethod.POST)
-    public UnityKnowledgeString addUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("description") String description, @RequestParam("image") byte[] image) throws Exception {
+    public UnityKnowledgeObject addUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("description") String description, @RequestParam("image") byte[] image) throws Exception {
     	
-    	UnityKnowledgeString unity = new UnityKnowledgeString(concept, description, image);
+    	UnityKnowledgeObject unity = new UnityKnowledgeObject(concept, description, image);
     	
     	// actualitzem la unity
     	unity = howDYLService.saveUnity(unity);
@@ -56,16 +56,17 @@ public class HowDYLController {
     @RequestMapping(value = "/howdyl/removeUnity", method = RequestMethod.POST)
     public void removeUnityKnowledge(@RequestParam("concept") String concept) throws Exception {
     	
-    	UnityKnowledgeString unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
     	
+    	// esborrem unity
     	howDYLService.deleteUnity(unity);
         
     }
     
     @RequestMapping(value = "/howdyl/addTag", method = RequestMethod.POST)
-    public UnityKnowledgeString addTagInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
+    public UnityKnowledgeObject addTagInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
     	
-    	UnityKnowledgeString unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
     		
     	unity.addTag(tag);
     	
@@ -77,9 +78,9 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/removeTag", method = RequestMethod.POST)
-    public UnityKnowledgeString removedTagInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
+    public UnityKnowledgeObject removedTagInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
     	
-    	UnityKnowledgeString unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
     		
     	unity.removeTag(tag);
     	
@@ -91,11 +92,11 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/addRelation", method = RequestMethod.POST)
-    public UnityKnowledgeString addRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
+    public UnityKnowledgeObject addRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
     	
-    	UnityKnowledgeString unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
     		
-    	UnityKnowledgeString unityRelation = howDYLService.getUnity(conceptRelation);
+    	UnityKnowledgeObject unityRelation = howDYLService.getUnity(conceptRelation);
 	    	
 	    unity.addRelation(unityRelation);
 	    
@@ -107,25 +108,21 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/removeRelation", method = RequestMethod.POST)
-    public UnityKnowledgeString removeRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
+    public void removeRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
     	
-    	UnityKnowledgeString unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
     		
-    	UnityKnowledgeString unityRelation = howDYLService.getUnity(conceptRelation);
-	    	
-	    unity.removeRelation(unityRelation);
+    	UnityKnowledgeObject unityRelation = howDYLService.getUnity(conceptRelation);
 	    
-	    // actualitzem la unity
-	    unity = howDYLService.saveUnity(unity);
-	    
-    	return unity;
+    	// esborrem relacio de unity
+	    howDYLService.deleteRelationInUnity(unity, unityRelation);
     	
     }
     
     @RequestMapping(value = "/howdyl/modifyDescription", method = RequestMethod.POST)
-    public UnityKnowledgeString modifyDescriptionInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("description") String description) throws Exception {
+    public UnityKnowledgeObject modifyDescriptionInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("description") String description) throws Exception {
     	
-    	UnityKnowledgeString unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
 	    	
 	    unity.modifyDescription(description);
 	    
@@ -137,19 +134,20 @@ public class HowDYLController {
     }
 
     @RequestMapping(value = "/howdyl/{concept}")
-    public UnityKnowledgeString getUnityKnowledge(@PathVariable String concept) throws Exception {
+    public UnityKnowledgeObject getUnityKnowledge(@PathVariable String concept) throws Exception {
     	
+    	// obtenim unity
     	return howDYLService.getUnity(concept);
     	   
     }
 
     @RequestMapping(value = "/howdyl/list")
-    public List<UnityKnowledgeString> getLRUList() throws InterruptedException {
+    public List<UnityKnowledgeObject> getLRUList() throws InterruptedException {
 
-        ResourceSubscriber<List<UnityKnowledgeString>> subscriber = new ResourceSubscriber<List<UnityKnowledgeString>>() {
+        ResourceSubscriber<List<UnityKnowledgeObject>> subscriber = new ResourceSubscriber<List<UnityKnowledgeObject>>() {
         	
             @Override
-            public void onNext(List<UnityKnowledgeString> s) {
+            public void onNext(List<UnityKnowledgeObject> s) {
             	list = s;
             }
 

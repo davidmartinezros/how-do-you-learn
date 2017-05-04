@@ -2,19 +2,21 @@ package org.dmr.services;
 
 import java.util.List;
 
-import org.dmr.domain.impl.UnityKnowledgeString;
+import org.dmr.domain.impl.UnityKnowledgeObject;
 
 /**
  * Created by davidmartinezros on 22/04/2017.
  */
 public interface HowDYLService {
     
-	UnityKnowledgeString saveUnity(UnityKnowledgeString unity);
+	UnityKnowledgeObject saveUnity(UnityKnowledgeObject unity);
 	
-	void deleteUnity(UnityKnowledgeString unity);
+	void deleteUnity(UnityKnowledgeObject unity);
+	
+	void deleteRelationInUnity(UnityKnowledgeObject unity, UnityKnowledgeObject unityRelation);
     
-    UnityKnowledgeString getUnity(String concept) throws Exception;
+    UnityKnowledgeObject getUnity(String concept) throws Exception;
     
-    public List<UnityKnowledgeString> getList();
+    public List<UnityKnowledgeObject> getList();
     
 }

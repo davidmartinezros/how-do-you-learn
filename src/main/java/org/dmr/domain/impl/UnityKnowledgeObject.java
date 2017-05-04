@@ -7,17 +7,17 @@ package org.dmr.domain.impl;
  * 
  * web: http://davidmartinezros.com
  */
-public class UnityKnowledgeString extends UnityKnowledge<String> {
+public class UnityKnowledgeObject extends UnityKnowledge<Object> {
 	
-	public UnityKnowledgeString() {
+	public UnityKnowledgeObject() {
 		super();
 	}
 	
-	public UnityKnowledgeString(String concept, byte[] image) {
+	public UnityKnowledgeObject(Object concept, byte[] image) {
 		super(concept, image);
 	}
 	
-	public UnityKnowledgeString(String concept, String description, byte[] image) {
+	public UnityKnowledgeObject(Object concept, String description, byte[] image) {
 		super(concept, description, image);
 	}
 	
