@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dmr.domain.UnityKnowledgeType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  * Created by davidmartinezros on 22/04/2017.
@@ -23,18 +25,21 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 	
     // id de la base de dades mongoDB
 	@Id
-	public String id;
+	private String id;
 	// concepte que estable el coneixement
-    T concept;
+	private T concept;
     // Necessito fer un mecanisme que extregui informacio d'una imatge, per associar-la a unitat de coneixement
     // La imatge associada al concepte estable el coneixement
-    byte[] image;
+	private byte[] image;
     // conclusions que fa la mente humana al llarg del temps
-    String description;
+	private String description;
     // Criteris pels que pots buscar la unitat de coneixement
-    List<String> tags;
+	private List<String> tags;
     // Relacions amb altres unitats de coneixement
-    List<UnityKnowledgeObject> relations;
+	private List<UnityKnowledgeObject> relations;
+	
+	@Autowired
+    MongoTemplate mongoTemplate;
     
     public UnityKnowledge() {
     	
@@ -168,5 +173,31 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     	}
     
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UnityKnowledge<T> other = (UnityKnowledge<T>) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
     
 }

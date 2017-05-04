@@ -13,9 +13,9 @@ public interface HowDYLService {
 	
 	void deleteUnity(UnityKnowledgeObject unity);
 	
-	void deleteRelationInUnity(UnityKnowledgeObject unity, UnityKnowledgeObject unityRelation);
+	void deleteRelation(UnityKnowledgeObject unity, UnityKnowledgeObject unityRelation);
     
-    UnityKnowledgeObject getUnity(String concept) throws Exception;
+    UnityKnowledgeObject getUnity(Object concept) throws Exception;
     
     public List<UnityKnowledgeObject> getList();
     
