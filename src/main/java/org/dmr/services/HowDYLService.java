@@ -2,6 +2,7 @@ package org.dmr.services;
 
 import java.util.List;
 
+import org.dmr.domain.impl.Robot;
 import org.dmr.domain.impl.UnityKnowledgeObject;
 
 /**
@@ -11,12 +12,20 @@ public interface HowDYLService {
     
 	UnityKnowledgeObject saveUnity(UnityKnowledgeObject unity);
 	
-	void deleteUnity(UnityKnowledgeObject unity);
+	UnityKnowledgeObject addUnity(String idRobot, UnityKnowledgeObject unity);
+	
+	void deleteUnity(String idRobot, UnityKnowledgeObject unity);
 	
 	void deleteRelation(UnityKnowledgeObject unity, UnityKnowledgeObject unityRelation);
+	
+	Robot getRobot(String name);
+	
+	List<Robot> getListRobots();
     
-    UnityKnowledgeObject getUnity(Object concept) throws Exception;
+    UnityKnowledgeObject getUnity(Object concept);
     
-    public List<UnityKnowledgeObject> getList();
+    List<UnityKnowledgeObject> getListUnities();
+    
+    UnityKnowledgeObject getUnityKnowledgeInRobot(String idRobot, Object concept);
     
 }

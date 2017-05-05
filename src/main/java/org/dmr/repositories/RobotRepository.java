@@ -3,6 +3,7 @@ package org.dmr.repositories;
 import java.util.List;
 
 import org.dmr.domain.impl.Robot;
+import org.dmr.domain.impl.UnityKnowledgeObject;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -20,6 +21,6 @@ public interface RobotRepository extends MongoRepository<Robot, String> {
     public Robot findByName(String name);
     
     @Query(value = "{ $and: [ { id: ?0 } , { unities.concept: ?1 } ] }")
-    public void findKnowledgeInRobot(String idRobot, Object concept);
+    public UnityKnowledgeObject findUnityKnowledgeInRobot(String idRobot, Object concept);
 
 }

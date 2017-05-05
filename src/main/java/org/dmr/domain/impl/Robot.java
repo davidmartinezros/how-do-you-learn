@@ -1,5 +1,6 @@
 package org.dmr.domain.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -19,6 +20,24 @@ public class Robot {
 	private String description;
 	// unitats de coneixement del robot
 	private List<UnityKnowledgeObject> unities;
+	
+	public Robot() {
+    	
+    }
+
+    // la creacio d'una unitat de coneixement es la relacio entre un concepte i una imatge
+	public Robot(String name, Integer age, String profession, String description) {
+    
+		//definicio robot
+        this.name = name;
+        this.age = age;
+        this.profession = profession;
+        this.description = description;
+        
+        // inicialitzem el llistat de unitats
+        this.unities = new ArrayList<UnityKnowledgeObject>();
+    
+	}
 
 	public String getId() {
 		return id;
@@ -66,6 +85,51 @@ public class Robot {
 
 	public void setUnities(List<UnityKnowledgeObject> unities) {
 		this.unities = unities;
+	}
+	
+    public void addUnity(UnityKnowledgeObject unity) {
+        
+    	if(!this.unities.contains(unity)) {
+    		
+    		this.unities.add(unity);
+    		
+    	}
+    
+    }
+    
+    public void removeUnity(UnityKnowledgeObject unity) {
+        
+    	if(this.unities.contains(unity)) {
+    		
+    		this.unities.remove(unity);
+    		
+    	}
+    
+    }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Robot other = (Robot) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 	
 }

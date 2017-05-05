@@ -2,7 +2,9 @@ package org.dmr.services.impl;
 
 import java.util.List;
 
+import org.dmr.domain.impl.Robot;
 import org.dmr.domain.impl.UnityKnowledgeObject;
+import org.dmr.repositories.RobotRepository;
 import org.dmr.repositories.UnityKnowledgeObjectRepository;
 import org.dmr.services.HowDYLService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,10 @@ import org.springframework.stereotype.Service;
 public class HowDYLServiceImpl implements HowDYLService {
 	
 	@Autowired
-	UnityKnowledgeObjectRepository repository;
+	RobotRepository repository;
+	
+	@Autowired
+	UnityKnowledgeObjectRepository repositoryUnity;
 	
 	@Autowired
 	MongoOperations mongoOperation;
@@ -33,17 +38,33 @@ public class HowDYLServiceImpl implements HowDYLService {
     
     @Override
     public UnityKnowledgeObject saveUnity(UnityKnowledgeObject unity) {
+    	
+    	unity = repositoryUnity.save(unity);
+    	
+    	return unity;
+    }
+    
+    @Override
+    public UnityKnowledgeObject addUnity(String idRobot, UnityKnowledgeObject unity) {
         
-    	unity = repository.save(unity);
+    	Robot robot = repository.findOne(idRobot);
+    	
+    	robot.addUnity(unity);
+    	
+    	robot = repository.save(robot);
     	
         return unity;
         
     }
 
     @Override
-    public void deleteUnity(UnityKnowledgeObject unity) {
+    public void deleteUnity(String idRobot, UnityKnowledgeObject unity) {
         
-    	repository.delete(unity);
+    	Robot robot = repository.findOne(idRobot);
+    	
+    	robot.removeUnity(unity);
+    	
+    	robot = repository.save(robot);
         
     }
     
@@ -62,19 +83,40 @@ public class HowDYLServiceImpl implements HowDYLService {
 		mongoOperation.remove(query, UnityKnowledgeObject.class);
     	
     }
-
-    @Override
-    public UnityKnowledgeObject getUnity(Object concept) throws Exception {
     
-    	return repository.findByConcept(concept);
+    @Override
+    public Robot getRobot(String name) {
+    
+    	return repository.findByName(name);
+    	
+    }
+    
+    @Override
+    public List<Robot> getListRobots() {
+    	
+    	return repository.findAll();
+        
+    }
+    
+    @Override
+    public UnityKnowledgeObject getUnity(Object concept) {
+    
+    	return repositoryUnity.findByConcept(concept);
     	
     }
 
     @Override
-    public List<UnityKnowledgeObject> getList() {
+    public List<UnityKnowledgeObject> getListUnities() {
     	
-    	return repository.findAll();
+    	return repositoryUnity.findAll();
         
+    }
+    
+    @Override
+    public UnityKnowledgeObject getUnityKnowledgeInRobot(String idRobot, Object concept) {
+    	
+    	return repository.findUnityKnowledgeInRobot(idRobot, concept);
+    			
     }
     
 }
