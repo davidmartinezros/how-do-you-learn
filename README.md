@@ -37,3 +37,10 @@ The list of tags is a List of String.
 The list of relations is a List of UnityKnowledge.
 
 Integration of MongoDB and save the data to it.
+
+## Version 2.1.0-SNAPSHOT
+
+Define the controller like crossOrigin for calling from any web domain.
+
+Add The Robot data object and the relation with the UnityKnowledges.
+Add The Service Methods for create, remove, list, edit and consult the Robots and the Unities.

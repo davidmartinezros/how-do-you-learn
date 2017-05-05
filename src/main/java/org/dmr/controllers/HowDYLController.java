@@ -1,8 +1,8 @@
 package org.dmr.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.dmr.domain.impl.Robot;
 import org.dmr.domain.impl.UnityKnowledgeObject;
 import org.dmr.services.HowDYLService;
 import org.slf4j.Logger;
@@ -31,46 +31,59 @@ import io.reactivex.subscribers.ResourceSubscriber;
 @CrossOrigin
 public class HowDYLController {
 	
+	private List<Robot> listRobots;
+	
+	private List<UnityKnowledgeObject> listUnities;
+	
 	@Autowired
     private HowDYLService howDYLService;
 	
-    private List<UnityKnowledgeObject> list;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     
     public HowDYLController() {
         
-        this.list = new ArrayList<>();
+    }
+    
+    @RequestMapping(value = "/howdyl/addRobot", method = RequestMethod.POST)
+    public Robot addRobot(@RequestParam("name") String name, @RequestParam("age") Integer age, @RequestParam("profession") String profession, @RequestParam("description") String description) throws Exception {
+    	
+    	Robot robot = new Robot(name, age, profession, description);
+    	
+    	// creem el robot
+    	robot = howDYLService.createRobot(robot);
+    	
+        return robot;
         
     }
 
     @RequestMapping(value = "/howdyl/addUnity", method = RequestMethod.POST)
-    public UnityKnowledgeObject addUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("description") String description, @RequestParam("image") byte[] image) throws Exception {
+    public UnityKnowledgeObject addUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("description") String description, @RequestParam("image") byte[] image) throws Exception {
     	
     	UnityKnowledgeObject unity = new UnityKnowledgeObject(concept, description, image);
     	
     	// actualitzem la unity
-    	unity = howDYLService.saveUnity(unity);
+    	unity = howDYLService.addUnity(idRobot, unity);
     	
         return unity;
         
     }
     
     @RequestMapping(value = "/howdyl/removeUnity", method = RequestMethod.POST)
-    public UnityKnowledgeObject removeUnityKnowledge(@RequestParam("concept") String concept) throws Exception {
+    public UnityKnowledgeObject removeUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
     	
     	// esborrem unity
-    	howDYLService.deleteUnity(unity);
+    	howDYLService.deleteUnity(idRobot, unity);
     	
     	return unity;
         
     }
     
     @RequestMapping(value = "/howdyl/addTag", method = RequestMethod.POST)
-    public UnityKnowledgeObject addTagInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
+    public UnityKnowledgeObject addTagInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
     		
     	unity.addTag(tag);
     	
@@ -81,9 +94,9 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/removeTag", method = RequestMethod.POST)
-    public UnityKnowledgeObject removedTagInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
+    public UnityKnowledgeObject removedTagInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
     		
     	unity.removeTag(tag);
     	
@@ -94,11 +107,11 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/addRelation", method = RequestMethod.POST)
-    public UnityKnowledgeObject addRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
+    public UnityKnowledgeObject addRelationInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
     		
-    	UnityKnowledgeObject unityRelation = howDYLService.getUnity(conceptRelation);
+    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot(idRobot, conceptRelation);
 	    	
 	    unity.addRelation(unityRelation);
 	    
@@ -109,11 +122,11 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/removeRelation", method = RequestMethod.POST)
-    public UnityKnowledgeObject removeRelationInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
+    public UnityKnowledgeObject removeRelationInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
-    		
-    	UnityKnowledgeObject unityRelation = howDYLService.getUnity(conceptRelation);
+    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
+		
+    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot(idRobot, conceptRelation);
     	
     	unity.removeRelation(unityRelation);
     	
@@ -124,9 +137,9 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/modifyDescription", method = RequestMethod.POST)
-    public UnityKnowledgeObject modifyDescriptionInUnityKnowledge(@RequestParam("concept") String concept, @RequestParam("description") String description) throws Exception {
+    public UnityKnowledgeObject modifyDescriptionInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("description") String description) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnity(concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
 	    	
 	    unity.modifyDescription(description);
 	    
@@ -136,22 +149,30 @@ public class HowDYLController {
     	
     }
 
-    @RequestMapping(value = "/howdyl/{concept}")
+    @RequestMapping(value = "/howdyl/getUnity/{concept}")
     public UnityKnowledgeObject getUnityKnowledge(@PathVariable String concept) throws Exception {
     	
     	// obtenim unity
     	return howDYLService.getUnity(concept);
     	   
     }
+    
+    @RequestMapping(value = "/howdyl/getRobot/{robot}")
+    public Robot getRobot(@PathVariable String robot) throws Exception {
+    	
+    	// obtenim robot
+    	return howDYLService.getRobot(robot);
+    	   
+    }
 
-    @RequestMapping(value = "/howdyl/list")
-    public List<UnityKnowledgeObject> getLRUList() throws InterruptedException {
-
+    @RequestMapping(value = "/howdyl/listUnities")
+    public List<UnityKnowledgeObject> getListUnities() throws InterruptedException {
+    	    	
         ResourceSubscriber<List<UnityKnowledgeObject>> subscriber = new ResourceSubscriber<List<UnityKnowledgeObject>>() {
         	
             @Override
             public void onNext(List<UnityKnowledgeObject> s) {
-            	list = s;
+            	listUnities = s;
             }
 
             @Override
@@ -161,17 +182,44 @@ public class HowDYLController {
 
             @Override
             public void onComplete() {
-                log.info("Complete List Search");
+                log.info("Complete List Unities Search");
             }
             
         };
         
         CompositeDisposable compositeDisposable = new CompositeDisposable();
-        compositeDisposable.add(Flowable.just(howDYLService.getList()).subscribeWith(subscriber));
+        compositeDisposable.add(Flowable.just(howDYLService.getListUnities()).subscribeWith(subscriber));
 
-        //Thread.sleep(5000);
+        return listUnities;
+        
+    }
+    
+    @RequestMapping(value = "/howdyl/listRobots")
+    public List<Robot> getListRobots() throws InterruptedException {
 
-        return list;
+        ResourceSubscriber<List<Robot>> subscriber = new ResourceSubscriber<List<Robot>>() {
+        	
+            @Override
+            public void onNext(List<Robot> s) {
+            	listRobots = s;
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                log.error(throwable.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                log.info("Complete List Robots Search");
+            }
+            
+        };
+        
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(Flowable.just(howDYLService.getListRobots()).subscribeWith(subscriber));
+
+        return listRobots;
         
     }
     
