@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.repository.Query;
  * 
  * web: http://davidmartinezros.com
  */
-public interface UnityKnowledgeRepositoryObject extends MongoRepository<UnityKnowledgeObject, String> {
+public interface UnityKnowledgeObjectRepository extends MongoRepository<UnityKnowledgeObject, String> {
 
 	public List<UnityKnowledgeObject> findAll();
 	
