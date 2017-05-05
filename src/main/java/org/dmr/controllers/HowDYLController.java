@@ -43,6 +43,18 @@ public class HowDYLController {
     public HowDYLController() {
         
     }
+    
+    @RequestMapping(value = "/howdyl/addRobot", method = RequestMethod.POST)
+    public Robot addRobot(@RequestParam("name") String name, @RequestParam("age") Integer age, @RequestParam("profession") String profession, @RequestParam("description") String description) throws Exception {
+    	
+    	Robot robot = new Robot(name, age, profession, description);
+    	
+    	// creem el robot
+    	robot = howDYLService.createRobot(robot);
+    	
+        return robot;
+        
+    }
 
     @RequestMapping(value = "/howdyl/addUnity", method = RequestMethod.POST)
     public UnityKnowledgeObject addUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("description") String description, @RequestParam("image") byte[] image) throws Exception {
@@ -75,7 +87,7 @@ public class HowDYLController {
     		
     	unity.addTag(tag);
     	
-    	unity = howDYLService.addUnity(idRobot, unity);
+    	unity = howDYLService.saveUnity(unity);
     	
     	return unity;
     	

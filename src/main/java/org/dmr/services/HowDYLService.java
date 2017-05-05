@@ -9,6 +9,8 @@ import org.dmr.domain.impl.UnityKnowledgeObject;
  * Created by davidmartinezros on 22/04/2017.
  */
 public interface HowDYLService {
+	
+	Robot createRobot(Robot robot);
     
 	UnityKnowledgeObject saveUnity(UnityKnowledgeObject unity);
 	

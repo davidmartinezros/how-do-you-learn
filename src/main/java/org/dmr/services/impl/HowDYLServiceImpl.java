@@ -37,17 +37,29 @@ public class HowDYLServiceImpl implements HowDYLService {
     }
     
     @Override
+    public Robot createRobot(Robot robot) {
+    	
+    	 robot = repository.save(robot);
+    	 
+    	 return robot;
+    	 
+    }
+    
+    @Override
     public UnityKnowledgeObject saveUnity(UnityKnowledgeObject unity) {
     	
     	unity = repositoryUnity.save(unity);
     	
     	return unity;
+    	
     }
     
     @Override
     public UnityKnowledgeObject addUnity(String idRobot, UnityKnowledgeObject unity) {
         
     	Robot robot = repository.findOne(idRobot);
+    	
+    	unity = repositoryUnity.save(unity);
     	
     	robot.addUnity(unity);
     	
