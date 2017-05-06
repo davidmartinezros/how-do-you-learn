@@ -22,20 +22,19 @@ public class Robot {
 	private List<UnityKnowledgeObject> unities;
 	
 	public Robot() {
-    	
+		// inicialitzem el llistat de unitats
+        this.unities = new ArrayList<UnityKnowledgeObject>();
     }
 
     // la creacio d'una unitat de coneixement es la relacio entre un concepte i una imatge
 	public Robot(String name, Integer age, String profession, String description) {
-    
+		
+		this();
 		//definicio robot
         this.name = name;
         this.age = age;
         this.profession = profession;
         this.description = description;
-        
-        // inicialitzem el llistat de unitats
-        this.unities = new ArrayList<UnityKnowledgeObject>();
     
 	}
 

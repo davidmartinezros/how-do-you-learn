@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.dmr.domain.impl.Robot;
 import org.dmr.domain.impl.UnityKnowledgeObject;
+import org.dmr.domain.impl.UnityKnowledgeWithRobotWrapper;
 import org.dmr.services.HowDYLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,9 +47,7 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/addRobot", method = RequestMethod.POST)
-    public Robot addRobot(@RequestParam("name") String name, @RequestParam("age") Integer age, @RequestParam("profession") String profession, @RequestParam("description") String description) throws Exception {
-    	
-    	Robot robot = new Robot(name, age, profession, description);
+    public Robot addRobot(@RequestBody Robot robot) throws Exception {
     	
     	// creem el robot
     	robot = howDYLService.createRobot(robot);
@@ -57,9 +57,12 @@ public class HowDYLController {
     }
 
     @RequestMapping(value = "/howdyl/addUnity", method = RequestMethod.POST)
-    public UnityKnowledgeObject addUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("description") String description, @RequestParam("image") byte[] image) throws Exception {
+    public UnityKnowledgeObject addUnityKnowledge(@RequestBody UnityKnowledgeWithRobotWrapper unityKnowledgeWithRobotWrapper) throws Exception {
     	
-    	UnityKnowledgeObject unity = new UnityKnowledgeObject(concept, description, image);
+    	//UnityKnowledgeObject unity = new UnityKnowledgeObject(concept, description, image);
+    	
+    	UnityKnowledgeObject unity = unityKnowledgeWithRobotWrapper.getUnity();
+    	String idRobot = unityKnowledgeWithRobotWrapper.getIdRobot();
     	
     	// actualitzem la unity
     	unity = howDYLService.addUnity(idRobot, unity);

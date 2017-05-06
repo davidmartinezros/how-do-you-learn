@@ -42,19 +42,20 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     MongoTemplate mongoTemplate;
     
     public UnityKnowledge() {
-    	
+    	//inicialitzem llistats
+        this.relations = new ArrayList<UnityKnowledgeObject>();
+        this.tags = new ArrayList<String>();
     }
 
     // la creacio d'una unitat de coneixement es la relacio entre un concepte i una imatge
 	public UnityKnowledge(T concept, byte[] image) {
-    
+		
+		this();
 		//definicio unitat de coneixement
         this.concept = concept;
         this.image = image;
         
-        // info complementaria
-        this.relations = new ArrayList<UnityKnowledgeObject>();
-        this.tags = new ArrayList<String>();
+        //info complementaria
         this.description = "";
     
 	}
