@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+
+import com.mongodb.WriteResult;
 
 /**
  * Created by davidmartinezros on 22/04/2017.
@@ -24,7 +27,7 @@ import org.springframework.stereotype.Service;
 public class HowDYLServiceImpl implements HowDYLService {
 	
 	@Autowired
-	RobotRepository repository;
+	RobotRepository robotRepository;
 	
 	@Autowired
 	UnityKnowledgeObjectRepository repositoryUnity;
@@ -39,7 +42,7 @@ public class HowDYLServiceImpl implements HowDYLService {
     @Override
     public Robot createRobot(Robot robot) {
     	
-    	 robot = repository.save(robot);
+    	 robot = robotRepository.save(robot);
     	 
     	 return robot;
     	 
@@ -57,13 +60,13 @@ public class HowDYLServiceImpl implements HowDYLService {
     @Override
     public UnityKnowledgeObject addUnity(String idRobot, UnityKnowledgeObject unity) {
         
-    	Robot robot = repository.findOne(idRobot);
+    	Robot robot = robotRepository.findOne(idRobot);
     	
     	unity = repositoryUnity.save(unity);
     	
     	robot.addUnity(unity);
     	
-    	robot = repository.save(robot);
+    	robot = robotRepository.save(robot);
     	
         return unity;
         
@@ -72,24 +75,24 @@ public class HowDYLServiceImpl implements HowDYLService {
     @Override
     public void deleteUnity(String idRobot, UnityKnowledgeObject unity) {
         
-    	Robot robot = repository.findOne(idRobot);
+    	Robot robot = robotRepository.findOne(idRobot);
     	
     	robot.removeUnity(unity);
     	
-    	robot = repository.save(robot);
+    	robot = robotRepository.save(robot);
         
     }
     
     @Override
-    public void deleteRelation(UnityKnowledgeObject unity, UnityKnowledgeObject unityRelation) {
+    public void deleteRelation(String idUnity, String idUnityRelation) {
     	
     	//repository.deleteRelations(unity.getId(), unityRelation.getId());
     	
     	Query query = new Query();
 		query.addCriteria(
-			Criteria.where("id").is(unity.getId())
+			Criteria.where("id").is(idUnity)
 			.andOperator(
-					Criteria.where("relations.id").is(unityRelation.getId())
+					Criteria.where("relations.id").is(idUnityRelation)
 					)
 			);
 		mongoOperation.remove(query, UnityKnowledgeObject.class);
@@ -99,14 +102,14 @@ public class HowDYLServiceImpl implements HowDYLService {
     @Override
     public Robot getRobot(String name) {
     
-    	return repository.findByName(name);
+    	return robotRepository.findByName(name);
     	
     }
     
     @Override
     public List<Robot> getListRobots() {
     	
-    	return repository.findAll();
+    	return robotRepository.findAll();
         
     }
     
@@ -124,11 +127,37 @@ public class HowDYLServiceImpl implements HowDYLService {
         
     }
     
-    @Override
-    public UnityKnowledgeObject getUnityKnowledgeInRobot(String idRobot, Object concept) {
+    public void deleteRobotWithUnity(String idRobot, Object concept) {
     	
-    	return repository.findUnityKnowledgeInRobot(idRobot, concept);
-    			
+    	Query query = new Query();
+		query.addCriteria(
+			Criteria.where("id").is(idRobot)
+			.andOperator(
+					Criteria.where("unities.concept").is(concept)
+					)
+			);
+		WriteResult result = mongoOperation.remove(query, Robot.class);
+		
+		System.out.println(result.toString());
+		
     }
     
+    @Override
+    public void deleteUnity(String idRobot, Object concept) {
+    	
+    	Query query = new Query();
+		query.addCriteria(
+			Criteria.where("id").is(idRobot)
+		);
+		Update update = new Update();
+		update.pull("unities", new Query().addCriteria(Criteria.where("concept").is(concept)));
+		
+		WriteResult result = mongoOperation.updateFirst(query, update, Robot.class);
+		
+		System.out.println(result.toString());
+		
+    }
+        
+    
+    	
 }

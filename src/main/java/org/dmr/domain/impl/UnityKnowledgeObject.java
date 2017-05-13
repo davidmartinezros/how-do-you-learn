@@ -1,5 +1,7 @@
 package org.dmr.domain.impl;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  * Created by davidmartinezros on 22/04/2017.
  * 
@@ -7,6 +9,7 @@ package org.dmr.domain.impl;
  * 
  * web: http://davidmartinezros.com
  */
+@Document
 public class UnityKnowledgeObject extends UnityKnowledge<Object> {
 	
 	public UnityKnowledgeObject() {

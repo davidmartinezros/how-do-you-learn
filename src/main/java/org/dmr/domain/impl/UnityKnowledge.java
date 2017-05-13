@@ -36,14 +36,14 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     // Criteris pels que pots buscar la unitat de coneixement
 	private List<String> tags;
     // Relacions amb altres unitats de coneixement
-	private List<UnityKnowledgeObject> relations;
+	private List<T> relations;
 	
 	@Autowired
     MongoTemplate mongoTemplate;
     
     public UnityKnowledge() {
     	//inicialitzem llistats
-        this.relations = new ArrayList<UnityKnowledgeObject>();
+        this.relations = new ArrayList<T>();
         this.tags = new ArrayList<String>();
     }
 
@@ -100,11 +100,11 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 		this.tags = tags;
 	}
 
-	public List<UnityKnowledgeObject> getRelations() {
+	public List<?> getRelations() {
 		return relations;
 	}
 
-	public void setRelations(List<UnityKnowledgeObject> relations) {
+	public void setRelations(List<T> relations) {
 		this.relations = relations;
 	}
 	
@@ -154,7 +154,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     }
     
     @Override
-    public void addRelation(UnityKnowledgeObject unity) {
+    public void addRelation(T unity) {
         
     	if(!this.relations.contains(unity)) {
     		
@@ -165,7 +165,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     }
     
     @Override
-    public void removeRelation(UnityKnowledgeObject unity) {
+    public void removeRelation(T unity) {
         
     	if(this.relations.contains(unity)) {
     		

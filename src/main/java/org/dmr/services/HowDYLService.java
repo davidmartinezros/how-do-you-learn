@@ -18,7 +18,7 @@ public interface HowDYLService {
 	
 	void deleteUnity(String idRobot, UnityKnowledgeObject unity);
 	
-	void deleteRelation(UnityKnowledgeObject unity, UnityKnowledgeObject unityRelation);
+	void deleteRelation(String idUnity, String idUnityRelation);
 	
 	Robot getRobot(String name);
 	
@@ -28,6 +28,6 @@ public interface HowDYLService {
     
     List<UnityKnowledgeObject> getListUnities();
     
-    UnityKnowledgeObject getUnityKnowledgeInRobot(String idRobot, Object concept);
+    void deleteUnity(String idRobot, Object concept);
     
 }

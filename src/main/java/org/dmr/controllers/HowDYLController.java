@@ -72,83 +72,89 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/removeUnity", method = RequestMethod.POST)
-    public UnityKnowledgeObject removeUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept) throws Exception {
+    public void removeUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") Object concept) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
-    	
-    	// esborrem unity
-    	howDYLService.deleteUnity(idRobot, unity);
-    	
-    	return unity;
+    	howDYLService.deleteUnity(idRobot, concept);
         
     }
     
     @RequestMapping(value = "/howdyl/addTag", method = RequestMethod.POST)
     public UnityKnowledgeObject addTagInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
-    		
-    	unity.addTag(tag);
+//    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
+//    		
+//    	unity.addTag(tag);
+//    	
+//    	unity = howDYLService.saveUnity(unity);
+//    	
+//    	return unity;
     	
-    	unity = howDYLService.saveUnity(unity);
-    	
-    	return unity;
-    	
+    	return null;
     }
     
     @RequestMapping(value = "/howdyl/removeTag", method = RequestMethod.POST)
     public UnityKnowledgeObject removedTagInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
-    		
-    	unity.removeTag(tag);
+//    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
+//    		
+//    	unity.removeTag(tag);
+//    	
+//    	unity = howDYLService.saveUnity(unity);
+//    	
+//    	return unity;
     	
-    	unity = howDYLService.saveUnity(unity);
-    	
-    	return unity;
+    	return null;
     	
     }
     
     @RequestMapping(value = "/howdyl/addRelation", method = RequestMethod.POST)
     public UnityKnowledgeObject addRelationInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
-    		
-    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot(idRobot, conceptRelation);
-	    	
-	    unity.addRelation(unityRelation);
-	    
-	    unity = howDYLService.saveUnity(unity);
-	    
-    	return unity;
+//    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
+//    		
+//    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot(idRobot, conceptRelation);
+//	    	
+//	    unity.addRelation(unityRelation);
+//	    
+//	    unity = howDYLService.saveUnity(unity);
+//	    
+//    	return unity;
+    	
+    	return null;
     	
     }
     
     @RequestMapping(value = "/howdyl/removeRelation", method = RequestMethod.POST)
-    public UnityKnowledgeObject removeRelationInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
+    public UnityKnowledgeObject removeRelationInUnityKnowledge(@RequestParam("idUnity") String idUnity, @RequestParam("idUnityRelation") String idUnityRelation) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
-		
-    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot(idRobot, conceptRelation);
+//    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
+//		
+//    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot(idRobot, conceptRelation);
+//    	
+//    	unity.removeRelation(unityRelation);
+//    	
+//	    unity = howDYLService.saveUnity(unity);
     	
-    	unity.removeRelation(unityRelation);
+    	howDYLService.deleteRelation(idUnity, idUnityRelation);
+//	    
+//	    return unity;
     	
-	    unity = howDYLService.saveUnity(unity);
-	    
-	    return unity;
+    	return null;
 	    
     }
     
     @RequestMapping(value = "/howdyl/modifyDescription", method = RequestMethod.POST)
     public UnityKnowledgeObject modifyDescriptionInUnityKnowledge(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("description") String description) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
-	    	
-	    unity.modifyDescription(description);
-	    
-	    unity = howDYLService.saveUnity(unity);
-	    
-    	return unity;
+//    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot(idRobot, concept);
+//	    	
+//	    unity.modifyDescription(description);
+//	    
+//	    unity = howDYLService.saveUnity(unity);
+//	    
+//    	return unity;
+    	
+    	return null;
     	
     }
 
