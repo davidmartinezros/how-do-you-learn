@@ -1,5 +1,7 @@
 package org.dmr.domain;
 
+import org.dmr.domain.impl.UnityKnowledgeObject;
+
 /**
  * Created by davidmartinezros on 22/04/2017.
  * 
@@ -13,9 +15,9 @@ public interface UnityKnowledgeType<T> extends UnityKnowledgeTypeBase<T> {
 	
 	void removeTag(String tag);
 
-	void addRelation(T unity);
+	void addUnity(UnityKnowledgeObject unity);
 	
-	void removeRelation(T unity);
+	void removeUnity(UnityKnowledgeObject unity);
 
 	void modifyDescription(String description);
 	

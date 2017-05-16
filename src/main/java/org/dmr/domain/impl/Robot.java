@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
-@Document
 public class Robot {
 	
 	// id de la base de dades mongoDB
@@ -21,6 +20,7 @@ public class Robot {
 	// descripcio / caracteristiques del robot
 	private String description;
 	// unitats de coneixement del robot
+	@DBRef
 	private List<UnityKnowledgeObject> unities;
 	
 	public Robot() {

@@ -39,6 +39,8 @@ public class HowDYLServiceImpl implements HowDYLService {
         
     }
     
+    // CRUD ROBOT
+    
     @Override
     public Robot createRobot(Robot robot) {
     	
@@ -49,54 +51,20 @@ public class HowDYLServiceImpl implements HowDYLService {
     }
     
     @Override
-    public UnityKnowledgeObject saveUnity(UnityKnowledgeObject unity) {
+    public Robot updateRobot(Robot robot) {
     	
-    	unity = repositoryUnity.save(unity);
-    	
-    	return unity;
-    	
+    	 robot = robotRepository.save(robot);
+    	 
+    	 return robot;
+    	 
     }
     
     @Override
-    public UnityKnowledgeObject addUnity(String idRobot, UnityKnowledgeObject unity) {
-        
-    	Robot robot = robotRepository.findOne(idRobot);
+    public Robot removeRobot(Robot robot) {
     	
-    	unity = repositoryUnity.save(unity);
+    	robotRepository.delete(robot);
     	
-    	robot.addUnity(unity);
-    	
-    	robot = robotRepository.save(robot);
-    	
-        return unity;
-        
-    }
-
-    @Override
-    public void deleteUnity(String idRobot, UnityKnowledgeObject unity) {
-        
-    	Robot robot = robotRepository.findOne(idRobot);
-    	
-    	robot.removeUnity(unity);
-    	
-    	robot = robotRepository.save(robot);
-        
-    }
-    
-    @Override
-    public void deleteRelation(String idUnity, String idUnityRelation) {
-    	
-    	//repository.deleteRelations(unity.getId(), unityRelation.getId());
-    	
-    	Query query = new Query();
-		query.addCriteria(
-			Criteria.where("id").is(idUnity)
-			.andOperator(
-					Criteria.where("relations.id").is(idUnityRelation)
-					)
-			);
-		mongoOperation.remove(query, UnityKnowledgeObject.class);
-    	
+    	return robot;
     }
     
     @Override
@@ -114,6 +82,46 @@ public class HowDYLServiceImpl implements HowDYLService {
     }
     
     @Override
+    public UnityKnowledgeObject createUnity(String idRobot, UnityKnowledgeObject unity) {
+        
+    	Robot robot = robotRepository.findOne(idRobot);
+    	
+    	unity = repositoryUnity.save(unity);
+    	
+    	robot.addUnity(unity);
+    	
+    	robot = robotRepository.save(robot);
+    	
+        return unity;
+        
+    }
+    
+    @Override
+    public UnityKnowledgeObject updateUnity(UnityKnowledgeObject unity) {
+    	
+    	unity = repositoryUnity.save(unity);
+    	
+    	return unity;
+    	
+    }
+    
+    @Override
+    public void removeUnity(String keyRobot, Object valueRobot, String key, Object value) {
+    	
+    	Query query = new Query();
+		query.addCriteria(
+			Criteria.where(keyRobot).is(valueRobot)
+		);
+		Update update = new Update();
+		update.pull("unities", new Query().addCriteria(Criteria.where(key).is(value)));
+		
+		WriteResult result = mongoOperation.updateFirst(query, update, Robot.class);
+		
+		System.out.println(result.toString());
+		
+    }
+    
+    @Override
     public UnityKnowledgeObject getUnity(Object concept) {
     
     	return repositoryUnity.findByConcept(concept);
@@ -127,37 +135,68 @@ public class HowDYLServiceImpl implements HowDYLService {
         
     }
     
-    public void deleteRobotWithUnity(String idRobot, Object concept) {
-    	
-    	Query query = new Query();
-		query.addCriteria(
-			Criteria.where("id").is(idRobot)
-			.andOperator(
-					Criteria.where("unities.concept").is(concept)
-					)
-			);
-		WriteResult result = mongoOperation.remove(query, Robot.class);
-		
-		System.out.println(result.toString());
-		
-    }
-    
     @Override
-    public void deleteUnity(String idRobot, Object concept) {
+    public void deleteRelation(String keyUnity, Object valueUnity, String key, Object value) {
     	
     	Query query = new Query();
 		query.addCriteria(
-			Criteria.where("id").is(idRobot)
+			Criteria.where(keyUnity).is(valueUnity)
 		);
 		Update update = new Update();
-		update.pull("unities", new Query().addCriteria(Criteria.where("concept").is(concept)));
+		update.pull("relations", new Query().addCriteria(Criteria.where(key).is(value)));
 		
-		WriteResult result = mongoOperation.updateFirst(query, update, Robot.class);
+		WriteResult result = mongoOperation.updateFirst(query, update, UnityKnowledgeObject.class);
 		
 		System.out.println(result.toString());
 		
-    }
-        
+    }    
     
+    @Override
+    public UnityKnowledgeObject getUnityKnowledgeInRobot(String keyRobot, Object valueRobot, String key, Object value) {
+    	
+    	Query query = new Query();
+    	query.addCriteria(
+			Criteria.where(keyRobot).is(valueRobot)
+		);
+		
+    	Robot robot = mongoOperation.findOne(query, Robot.class);
+    	
+    	return findUnityKnowledge(robot.getUnities(), key, value);
+    	
+    }
+    
+    public UnityKnowledgeObject findUnityKnowledge(List<UnityKnowledgeObject> list, String key, Object value) {
+    	
+    	UnityKnowledgeObject result = null;
+    	
+    	for(UnityKnowledgeObject unity: list) {
+    		if(key.equals("concept")) {
+    			if(value.equals(unity.getConcept())) {
+    				result = unity;
+    				break;
+    			}
+    		} else if(key.equals("id")) {
+    			if(value.equals(unity.getId())) {
+    				result = unity;
+    				break;
+    			}
+    		} else if(key.equals("description")) {
+    			if(value.equals(unity.getDescription())) {
+    				result = unity;
+    				break;
+    			}
+    		} else if(key.equals("image")) {
+    			if(value.equals(unity.getImage())) {
+    				result = unity;
+    				break;
+    			}
+    		}
+    		if(result == null) {
+    			result = findUnityKnowledge(unity.getUnities(), key, value);
+    		}
+    	}
+		
+		return result;
+    }
     	
 }

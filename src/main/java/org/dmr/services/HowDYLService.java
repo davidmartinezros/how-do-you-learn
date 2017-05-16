@@ -10,24 +10,38 @@ import org.dmr.domain.impl.UnityKnowledgeObject;
  */
 public interface HowDYLService {
 	
+	// CRUD ROBOT
+	
 	Robot createRobot(Robot robot);
-    
-	UnityKnowledgeObject saveUnity(UnityKnowledgeObject unity);
 	
-	UnityKnowledgeObject addUnity(String idRobot, UnityKnowledgeObject unity);
+	Robot updateRobot(Robot robot);
 	
-	void deleteUnity(String idRobot, UnityKnowledgeObject unity);
-	
-	void deleteRelation(String idUnity, String idUnityRelation);
+	Robot removeRobot(Robot robot);
 	
 	Robot getRobot(String name);
 	
 	List<Robot> getListRobots();
+	
+	//-->
+	
+	// CRUD UNITY
+	
+	UnityKnowledgeObject createUnity(String idRobot, UnityKnowledgeObject unity);
     
+	UnityKnowledgeObject updateUnity(UnityKnowledgeObject unity);
+	
+	void removeUnity(String keyRobot, Object valueRobot, String key, Object value);
+	
     UnityKnowledgeObject getUnity(Object concept);
     
     List<UnityKnowledgeObject> getListUnities();
     
-    void deleteUnity(String idRobot, Object concept);
+    //-->
+    
+    // ALTRES
+    
+    void deleteRelation(String keyUnity, Object valueUnity, String key, Object value);
+    
+    UnityKnowledgeObject getUnityKnowledgeInRobot(String keyRobot, Object valueRobot, String key, Object value);
     
 }

@@ -6,7 +6,9 @@ import java.util.List;
 import org.dmr.domain.UnityKnowledgeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
  * Created by davidmartinezros on 22/04/2017.
@@ -36,14 +38,15 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     // Criteris pels que pots buscar la unitat de coneixement
 	private List<String> tags;
     // Relacions amb altres unitats de coneixement
-	private List<T> relations;
+	@DBRef
+	private List<UnityKnowledgeObject> unities;
 	
 	@Autowired
     MongoTemplate mongoTemplate;
     
     public UnityKnowledge() {
     	//inicialitzem llistats
-        this.relations = new ArrayList<T>();
+        this.unities = new ArrayList<UnityKnowledgeObject>();
         this.tags = new ArrayList<String>();
     }
 
@@ -100,12 +103,12 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 		this.tags = tags;
 	}
 
-	public List<?> getRelations() {
-		return relations;
+	public List<UnityKnowledgeObject> getUnities() {
+		return unities;
 	}
 
-	public void setRelations(List<T> relations) {
-		this.relations = relations;
+	public void setUnities(List<UnityKnowledgeObject> unities) {
+		this.unities = unities;
 	}
 	
 	@Override
@@ -154,22 +157,22 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     }
     
     @Override
-    public void addRelation(T unity) {
+    public void addUnity(UnityKnowledgeObject unity) {
         
-    	if(!this.relations.contains(unity)) {
+    	if(!this.unities.contains(unity)) {
     		
-    		this.relations.add(unity);
+    		this.unities.add(unity);
     		
     	}
     
     }
     
     @Override
-    public void removeRelation(T unity) {
+    public void removeUnity(UnityKnowledgeObject unity) {
         
-    	if(this.relations.contains(unity)) {
+    	if(this.unities.contains(unity)) {
     		
-    		this.relations.remove(unity);
+    		this.unities.remove(unity);
     		
     	}
     
