@@ -120,17 +120,15 @@ public class HowDYLController {
     @RequestMapping(value = "/howdyl/createRelation", method = RequestMethod.POST)
     public UnityKnowledgeObject createRelation(@RequestParam("idRobot") String idRobot, @RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
     	
-//    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", concept);
-//    		
-//    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot(idRobot, conceptRelation);
-//	    	
-//	    unity.addRelation(unityRelation);
-//	    
-//	    unity = howDYLService.saveUnity(unity);
-//	    
-//    	return unity;
-    	
-    	return null;
+    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", concept);
+    		
+    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", conceptRelation);
+	    	
+	    unity.addUnity(unityRelation);
+	    
+	    unity = howDYLService.updateUnity(unity);
+	    
+    	return unity;
     	
     }
     

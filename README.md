@@ -44,3 +44,13 @@ Define the controller like crossOrigin for calling from any web domain.
 
 Add The Robot data object and the relation with the UnityKnowledges.
 Add The Service Methods for create, remove, list, edit and consult the Robots and the Unities.
+
+## Version 2.2.0-SNAPSHOT
+
+Done the addRobot, listRobots, addUnity and listUnities.
+
+## Version 2.3.0-SNAPSHOT
+
+Resolve the problem of create relations of unities.
+Now you can do the CRUD on Robots and on Unities (create, read, update and delete).
+Also done addTag, removeTag and addRelation and removeRelation.
