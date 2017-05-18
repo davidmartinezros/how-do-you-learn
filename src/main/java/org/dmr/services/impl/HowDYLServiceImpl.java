@@ -165,38 +165,42 @@ public class HowDYLServiceImpl implements HowDYLService {
     	
     }
     
-    public UnityKnowledgeObject findUnityKnowledge(List<UnityKnowledgeObject> list, String key, Object value) {
-    	
-    	UnityKnowledgeObject result = null;
+    private UnityKnowledgeObject findUnityKnowledge(List<UnityKnowledgeObject> list, String key, Object value) {
     	
     	for(UnityKnowledgeObject unity: list) {
+    		
     		if(key.equals("concept")) {
-    			if(value.equals(unity.getConcept())) {
-    				result = unity;
-    				break;
+    			if(unity.getConcept() != null && unity.getConcept().equals(value)) {
+    				return unity;
     			}
     		} else if(key.equals("id")) {
-    			if(value.equals(unity.getId())) {
-    				result = unity;
-    				break;
+    			if(unity.getId() != null && unity.getId().equals(value)) {
+    				return unity;
     			}
     		} else if(key.equals("description")) {
-    			if(value.equals(unity.getDescription())) {
-    				result = unity;
-    				break;
+    			if(unity.getDescription() != null && unity.getDescription().equals(value)) {
+    				return unity;
     			}
     		} else if(key.equals("image")) {
-    			if(value.equals(unity.getImage())) {
-    				result = unity;
-    				break;
+    			if(unity.getImage() != null && unity.getImage().equals(value)) {
+    				return unity;
+    			}
+    		} else if(key.equals("tags")) {
+    			if(unity.getTags() != null && unity.getTags().contains(value)) {
+    				return unity;
     			}
     		}
-    		if(result == null) {
-    			result = findUnityKnowledge(unity.getUnities(), key, value);
+    		
+    		UnityKnowledgeObject result = findUnityKnowledge(unity.getUnities(), key, value);
+    		
+    		if(result != null) {
+    			return result;
     		}
+    		
     	}
 		
-		return result;
+		return null;
+		
     }
     	
 }
