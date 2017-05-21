@@ -54,3 +54,12 @@ Done the addRobot, listRobots, addUnity and listUnities.
 Resolve the problem of create relations of unities.
 Now you can do the CRUD on Robots and on Unities (create, read, update and delete).
 Also done addTag, removeTag and addRelation and removeRelation.
+
+## Version 2.4.0-SNAPSHOT
+
+Modify the method that find unityknowledge in robot.
+Make the list of unities and robots in the method getlist scope.
+
+## Version 2.5.0-SNAPSHOT
+
+Implements the methods createTag and removeTag with it's wrapper object.

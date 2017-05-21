@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dmr.domain.impl.Robot;
+import org.dmr.domain.impl.TagWithUnityKnowlegdeWrapper;
 import org.dmr.domain.impl.UnityKnowledgeObject;
 import org.dmr.domain.impl.UnityKnowledgeWithRobotWrapper;
 import org.dmr.services.HowDYLService;
@@ -89,7 +90,11 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/createTag", method = RequestMethod.POST)
-    public UnityKnowledgeObject createTag(@RequestParam("id_robot") String idRobot, @RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
+    public UnityKnowledgeObject createTag(@RequestBody TagWithUnityKnowlegdeWrapper tagWithUnityKnowlegdeWrapper) throws Exception {
+    	
+    	String idRobot = tagWithUnityKnowlegdeWrapper.getIdRobot();
+    	Object concept = tagWithUnityKnowlegdeWrapper.getConcept();
+    	String tag = tagWithUnityKnowlegdeWrapper.getTag();
     	
     	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", concept);
     		
@@ -102,7 +107,11 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/removeTag", method = RequestMethod.POST)
-    public UnityKnowledgeObject removedTag(@RequestParam("id_robot") String idRobot, @RequestParam("concept") String concept, @RequestParam("tag") String tag) throws Exception {
+    public UnityKnowledgeObject removedTag(@RequestBody TagWithUnityKnowlegdeWrapper tagWithUnityKnowlegdeWrapper) throws Exception {
+    	
+    	String idRobot = tagWithUnityKnowlegdeWrapper.getIdRobot();
+    	Object concept = tagWithUnityKnowlegdeWrapper.getConcept();
+    	String tag = tagWithUnityKnowlegdeWrapper.getTag();
     	
     	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", concept);
     		
