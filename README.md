@@ -63,3 +63,8 @@ Make the list of unities and robots in the method getlist scope.
 ## Version 2.5.0-SNAPSHOT
 
 Implements the methods createTag and removeTag with it's wrapper object.
+
+## Version 2.6.0-SNAPSHOT
+
+Convert the remove methods to GET request, because them have request parameters (removeRobot, removeUnity, removeRelation, removeTag).
+Change the postman calls with the changes of the controller service methods.

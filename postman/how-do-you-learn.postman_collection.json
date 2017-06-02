@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "how-do-you-learn",
-		"_postman_id": "b86ae009-addf-27a5-24f6-c31312248fff",
+		"_postman_id": "f8c3e145-8354-82f4-1916-bdacc7a37966",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -19,9 +19,9 @@
 			"response": []
 		},
 		{
-			"name": "/api/howdyl/list",
+			"name": "/api/howdyl/listRobots",
 			"request": {
-				"url": "{{url}}/api/howdyl/list",
+				"url": "{{url}}/api/howdyl/listRobots",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -30,9 +30,9 @@
 			"response": []
 		},
 		{
-			"name": "/api/howdyl/key",
+			"name": "/api/howdyl/listUnities",
 			"request": {
-				"url": "{{url}}/api/howdyl/david",
+				"url": "{{url}}/api/howdyl/listUnities",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -41,12 +41,133 @@
 			"response": []
 		},
 		{
-			"name": "/api/howdyl/addUnity",
+			"name": "/api/howdyl/robot/key",
 			"request": {
-				"url": "{{url}}/api/howdyl/addUnity?concept=ee&description=software engineer and developer&image",
+				"url": "{{url}}/api/howdyl/robot/David",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/unity/key",
+			"request": {
+				"url": "{{url}}/api/howdyl/unity/prova",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/createRobot",
+			"request": {
+				"url": "{{url}}/api/howdyl/createRobot",
 				"method": "POST",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Mini David",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "18",
+							"type": "text"
+						},
+						{
+							"key": "profession",
+							"value": "informatic",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "my first robot",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/removeRobot",
+			"request": {
+				"url": {
+					"raw": "{{url}}/api/howdyl/removeRobot?name_robot=aaa",
+					"auth": {},
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"howdyl",
+						"removeRobot"
+					],
+					"query": [
+						{
+							"key": "name_robot",
+							"value": "aaa",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name_robot",
+							"value": "aaa",
+							"type": "text"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/api/howdyl/createUnity",
+			"request": {
+				"url": "{{url}}/api/howdyl/createUnity",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idRobot",
+							"value": "5917171e75fb0216306f40a2",
+							"type": "text"
+						},
+						{
+							"key": "concept",
+							"value": "informatic",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "my first unity",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
 				"description": ""
 			},
 			"response": []
@@ -54,18 +175,32 @@
 		{
 			"name": "/api/howdyl/removeUnity",
 			"request": {
-				"url": "{{url}}/api/howdyl/removeUnity?concept=bb",
-				"method": "POST",
+				"url": "{{url}}/api/howdyl/removeUnity",
+				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idRobot",
+							"value": "590cb6e34921b719a08d6893",
+							"type": "text"
+						},
+						{
+							"key": "concept",
+							"value": "informatic",
+							"type": "text"
+						}
+					]
+				},
 				"description": ""
 			},
 			"response": []
 		},
 		{
-			"name": "/api/howdyl/addTag",
+			"name": "/api/howdyl/createTag",
 			"request": {
-				"url": "{{url}}/api/howdyl/addTag?concept=david&tag=aaa",
+				"url": "{{url}}/api/howdyl/createTag?id_robot=590cbd5f9fd66563396d03bc&concept=exemple&tag=exemple2",
 				"method": "POST",
 				"header": [],
 				"body": {},
@@ -76,8 +211,40 @@
 		{
 			"name": "/api/howdyl/removeTag",
 			"request": {
-				"url": "{{url}}/api/howdyl/removeTag?concept=aa&tag=dd",
-				"method": "POST",
+				"url": {
+					"raw": "{{url}}/api/howdyl/removeTag?idRobot=5917171e75fb0216306f40a2&concept=prova&tag=exemple2",
+					"auth": {},
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"howdyl",
+						"removeTag"
+					],
+					"query": [
+						{
+							"key": "idRobot",
+							"value": "5917171e75fb0216306f40a2",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "concept",
+							"value": "prova",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "tag",
+							"value": "exemple2",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
 				"header": [],
 				"body": {},
 				"description": ""
@@ -85,9 +252,9 @@
 			"response": []
 		},
 		{
-			"name": "/api/howdyl/addRelation",
+			"name": "/api/howdyl/createRelation",
 			"request": {
-				"url": "{{url}}/api/howdyl/addRelation?concept=ee&concept_relation=aa",
+				"url": "{{url}}/api/howdyl/createRelation?idRobot=5917171e75fb0216306f40a2&concept=prova&concept_relation=prova",
 				"method": "POST",
 				"header": [],
 				"body": {},
@@ -98,8 +265,34 @@
 		{
 			"name": "/api/howdyl/removeRelation",
 			"request": {
-				"url": "{{url}}/api/howdyl/removeRelation?concept=aa&concept_relation=dd",
-				"method": "POST",
+				"url": {
+					"raw": "{{url}}/api/howdyl/removeRelation?idUnity=5917172675fb0216306f40a3&idUnityRelation=5917172675fb0216306f40a3",
+					"auth": {},
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"howdyl",
+						"removeRelation"
+					],
+					"query": [
+						{
+							"key": "idUnity",
+							"value": "5917172675fb0216306f40a3",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "idUnityRelation",
+							"value": "5917172675fb0216306f40a3",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
 				"header": [],
 				"body": {},
 				"description": ""
