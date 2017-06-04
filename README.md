@@ -68,3 +68,8 @@ Implements the methods createTag and removeTag with it's wrapper object.
 
 Convert the remove methods to GET request, because them have request parameters (removeRobot, removeUnity, removeRelation, removeTag).
 Change the postman calls with the changes of the controller service methods.
+
+## Version 2.7.0-SNAPSHOT
+
+Change the list methods passing the idRobot parameter.
+Simplify the calls in the services for using only one unity get call and unify it.

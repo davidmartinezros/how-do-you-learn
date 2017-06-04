@@ -120,19 +120,24 @@ public class HowDYLServiceImpl implements HowDYLService {
 		System.out.println(result.toString());
 		
     }
-    
-    @Override
-    public UnityKnowledgeObject getUnity(Object concept) {
-    
-    	return repositoryUnity.findByConcept(concept);
-    	
-    }
 
     @Override
-    public List<UnityKnowledgeObject> getListUnities() {
+    public List<UnityKnowledgeObject> getListUnities(String keyRobot, Object valueRobot) {
     	
-    	return repositoryUnity.findAll();
-        
+    	Query query = new Query();
+    	query.addCriteria(
+			Criteria.where(keyRobot).is(valueRobot)
+		);
+		
+    	Robot robot = mongoOperation.findOne(query, Robot.class);
+    	
+    	if(robot != null) {
+    		
+    		return robot.getUnities();	
+    	
+    	}
+    	
+    	return null;
     }
     
     @Override
@@ -152,7 +157,7 @@ public class HowDYLServiceImpl implements HowDYLService {
     }    
     
     @Override
-    public UnityKnowledgeObject getUnityKnowledgeInRobot(String keyRobot, Object valueRobot, String key, Object value) {
+    public UnityKnowledgeObject getUnity(String keyRobot, Object valueRobot, String key, Object value) {
     	
     	Query query = new Query();
     	query.addCriteria(

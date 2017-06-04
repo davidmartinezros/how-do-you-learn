@@ -96,7 +96,7 @@ public class HowDYLController {
     	Object concept = tagWithUnityKnowlegdeWrapper.getConcept();
     	String tag = tagWithUnityKnowlegdeWrapper.getTag();
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity("id", idRobot, "concept", concept);
     		
     	unity.addTag(tag);
     	
@@ -113,7 +113,7 @@ public class HowDYLController {
 //    	Object concept = tagWithUnityKnowlegdeWrapper.getConcept();
 //    	String tag = tagWithUnityKnowlegdeWrapper.getTag();
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity("id", idRobot, "concept", concept);
     		
     	unity.removeTag(tag);
     	
@@ -126,9 +126,9 @@ public class HowDYLController {
     @RequestMapping(value = "/howdyl/createRelation", method = RequestMethod.POST)
     public UnityKnowledgeObject createRelation(@RequestParam("id_robot") String idRobot, @RequestParam("concept") String concept, @RequestParam("concept_relation") String conceptRelation) throws Exception {
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", concept);
+    	UnityKnowledgeObject unity = howDYLService.getUnity("id", idRobot, "concept", concept);
     		
-    	UnityKnowledgeObject unityRelation = howDYLService.getUnityKnowledgeInRobot("id", idRobot, "concept", conceptRelation);
+    	UnityKnowledgeObject unityRelation = howDYLService.getUnity("id", idRobot, "concept", conceptRelation);
 	    	
 	    unity.addUnity(unityRelation);
 	    
@@ -157,24 +157,24 @@ public class HowDYLController {
 	    
     }
 
-    @RequestMapping(value = "/howdyl/unity/{concept}", method = RequestMethod.GET)
-    public UnityKnowledgeObject getUnity(@PathVariable String concept) throws Exception {
+    @RequestMapping(value = "/howdyl/unity/{idRobot}/{concept}", method = RequestMethod.GET)
+    public UnityKnowledgeObject getUnity(@PathVariable String idRobot, @PathVariable String concept) throws Exception {
     	
     	// obtenim unity
-    	return howDYLService.getUnity(concept);
+    	return howDYLService.getUnity("id", idRobot, "concept", concept);
     	   
     }
     
     @RequestMapping(value = "/howdyl/robot/{robot}", method = RequestMethod.GET)
-    public Robot getRobot(@PathVariable String robot) throws Exception {
+    public Robot getRobot(@PathVariable String robotName) throws Exception {
     	
     	// obtenim robot
-    	return howDYLService.getRobot(robot);
+    	return howDYLService.getRobot(robotName);
     	   
     }
 
-    @RequestMapping(value = "/howdyl/listUnities", method = RequestMethod.GET)
-    public List<UnityKnowledgeObject> getListUnities() throws InterruptedException {
+    @RequestMapping(value = "/howdyl/listUnities/{idRobot}", method = RequestMethod.GET)
+    public List<UnityKnowledgeObject> getListUnities(@PathVariable String idRobot) throws InterruptedException {
     	
     	final List<UnityKnowledgeObject> listUnities = new ArrayList<UnityKnowledgeObject>();
     	
@@ -198,7 +198,7 @@ public class HowDYLController {
         };
         
         CompositeDisposable compositeDisposable = new CompositeDisposable();
-        compositeDisposable.add(Flowable.just(howDYLService.getListUnities()).subscribeWith(subscriber));
+        compositeDisposable.add(Flowable.just(howDYLService.getListUnities("id", idRobot)).subscribeWith(subscriber));
 
         return listUnities;
         
