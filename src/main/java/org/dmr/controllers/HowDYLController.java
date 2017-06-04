@@ -166,10 +166,10 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/robot/{robot}", method = RequestMethod.GET)
-    public Robot getRobot(@PathVariable String robotName) throws Exception {
+    public Robot getRobot(@PathVariable String robot) throws Exception {
     	
     	// obtenim robot
-    	return howDYLService.getRobot(robotName);
+    	return howDYLService.getRobot(robot);
     	   
     }
 
