@@ -17,6 +17,8 @@ public interface RobotRepository extends MongoRepository<Robot, String> {
 
 	public List<Robot> findAll();
 	
+	public Robot findById(String id);
+	
     public Robot findByName(String name);
     
     @Query(value = "{ $pull: { unities.concept: ?1 }, id: ?0 } }", delete = true)

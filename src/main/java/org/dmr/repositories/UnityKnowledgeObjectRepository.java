@@ -16,6 +16,8 @@ public interface UnityKnowledgeObjectRepository extends MongoRepository<UnityKno
 
 	public List<UnityKnowledgeObject> findAll();
 	
+	public UnityKnowledgeObject findById(String id);
+	
     public UnityKnowledgeObject findByConcept(Object concept);
 
 }

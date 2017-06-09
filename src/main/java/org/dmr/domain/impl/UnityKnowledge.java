@@ -35,7 +35,8 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     // conclusions que fa la mente humana al llarg del temps
 	private String description;
     // Criteris pels que pots buscar la unitat de coneixement
-	private List<String> tags;
+	@DBRef
+	private List<Tag> tags;
     // Relacions amb altres unitats de coneixement
 	@DBRef
 	private List<UnityKnowledgeObject> unities;
@@ -46,7 +47,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     public UnityKnowledge() {
     	//inicialitzem llistats
         this.unities = new ArrayList<UnityKnowledgeObject>();
-        this.tags = new ArrayList<String>();
+        this.tags = new ArrayList<Tag>();
     }
 
     // la creacio d'una unitat de coneixement es la relacio entre un concepte i una imatge
@@ -94,11 +95,11 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 		this.description = description;
 	}
 
-	public List<String> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<String> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 
@@ -134,7 +135,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
 	}
     
     @Override
-    public void addTag(String tag) {
+    public void addTag(Tag tag) {
 
     	if(!this.tags.contains(tag)) {
     		
@@ -145,7 +146,7 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     }
     
     @Override
-    public void removeTag(String tag) {
+    public void removeTag(Tag tag) {
 
     	if(this.tags.contains(tag)) {
     		

@@ -1,5 +1,6 @@
 package org.dmr.domain;
 
+import org.dmr.domain.impl.Tag;
 import org.dmr.domain.impl.UnityKnowledgeObject;
 
 /**
@@ -11,9 +12,9 @@ import org.dmr.domain.impl.UnityKnowledgeObject;
  */
 public interface UnityKnowledgeType<T> extends UnityKnowledgeTypeBase<T> {
 
-	void addTag(String tag);
+	void addTag(Tag tag);
 	
-	void removeTag(String tag);
+	void removeTag(Tag tag);
 
 	void addUnity(UnityKnowledgeObject unity);
 	

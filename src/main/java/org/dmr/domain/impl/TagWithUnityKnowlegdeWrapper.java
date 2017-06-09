@@ -4,7 +4,8 @@ public class TagWithUnityKnowlegdeWrapper {
 	
 	String idRobot;
 	Object concept;
-	String tag;
+	Tag tag;
+	
 	public String getIdRobot() {
 		return idRobot;
 	}
@@ -17,10 +18,10 @@ public class TagWithUnityKnowlegdeWrapper {
 	public void setConcept(Object concept) {
 		this.concept = concept;
 	}
-	public String getTag() {
+	public Tag getTag() {
 		return tag;
 	}
-	public void setTag(String tag) {
+	public void setTag(Tag tag) {
 		this.tag = tag;
 	}
 	

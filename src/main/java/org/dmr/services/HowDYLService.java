@@ -3,6 +3,7 @@ package org.dmr.services;
 import java.util.List;
 
 import org.dmr.domain.impl.Robot;
+import org.dmr.domain.impl.Tag;
 import org.dmr.domain.impl.UnityKnowledgeObject;
 
 /**
@@ -16,9 +17,11 @@ public interface HowDYLService {
 	
 	Robot updateRobot(Robot robot);
 	
-	Robot removeRobot(Robot robot);
+	Robot removeRobot(String idRobot);
 	
-	Robot getRobot(String name);
+	Robot getRobot(String idRobot);
+	
+	Robot getRobotByName(String name);
 	
 	List<Robot> getListRobots();
 	
@@ -32,15 +35,27 @@ public interface HowDYLService {
 	
 	UnityKnowledgeObject getUnity(String keyRobot, Object valueRobot, String key, Object value);
     
-	void removeUnity(String keyRobot, Object valueRobot, String key, Object value);
+	UnityKnowledgeObject removeUnity(String idUnity);
     
-    public List<UnityKnowledgeObject> getListUnities(String keyRobot, Object valueRobot);
+    List<UnityKnowledgeObject> getListUnities(String keyRobot, Object valueRobot);
     
     //-->
     
+    // CRUD TAG
+    
+    Tag createTag(UnityKnowledgeObject unity, Tag tag);
+    
+    Tag updateTag(Tag tag);
+    
+    Tag getTag(String keyUnity, Object valueUnity, String key, Object value);
+    
+    Tag removeTag(String idTag);
+    
+    List<UnityKnowledgeObject> getListTags(String keyUnity, Object valueUnity);
+    
     // ALTRES
     
-    void deleteRelation(String keyUnity, Object valueUnity, String key, Object value);
+    UnityKnowledgeObject removeRelation(String idRelation);
     
     
 }

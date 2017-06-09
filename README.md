@@ -73,3 +73,10 @@ Change the postman calls with the changes of the controller service methods.
 
 Change the list methods passing the idRobot parameter.
 Simplify the calls in the services for using only one unity get call and unify it.
+
+## Version 2.8.0-SNAPSHOT
+
+Convert tag to an Object Tag with it's mongodb id.
+Convert all model Objects to mongodb documents.
+Simplify the parametritzed calls and restrict them only to query methods where are usefull only.
+Implements and prove the remove methods for tag and unity using repositories delete function.
