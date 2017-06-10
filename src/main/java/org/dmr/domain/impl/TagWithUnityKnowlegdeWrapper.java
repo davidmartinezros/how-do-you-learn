@@ -3,7 +3,7 @@ package org.dmr.domain.impl;
 public class TagWithUnityKnowlegdeWrapper {
 	
 	String idRobot;
-	Object concept;
+	String idUnity;
 	Tag tag;
 	
 	public String getIdRobot() {
@@ -12,11 +12,11 @@ public class TagWithUnityKnowlegdeWrapper {
 	public void setIdRobot(String idRobot) {
 		this.idRobot = idRobot;
 	}
-	public Object getConcept() {
-		return concept;
+	public String getIdUnity() {
+		return idUnity;
 	}
-	public void setConcept(Object concept) {
-		this.concept = concept;
+	public void setIdUnityt(String idUnity) {
+		this.idUnity = idUnity;
 	}
 	public Tag getTag() {
 		return tag;

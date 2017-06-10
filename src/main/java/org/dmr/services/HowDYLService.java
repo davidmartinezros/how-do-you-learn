@@ -29,6 +29,8 @@ public interface HowDYLService {
 	
 	// CRUD UNITY
 	
+	UnityKnowledgeObject createUnity(UnityKnowledgeObject unity);
+	
 	UnityKnowledgeObject createUnity(String idRobot, UnityKnowledgeObject unity);
     
 	UnityKnowledgeObject updateUnity(UnityKnowledgeObject unity);

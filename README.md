@@ -80,3 +80,10 @@ Convert tag to an Object Tag with it's mongodb id.
 Convert all model Objects to mongodb documents.
 Simplify the parametritzed calls and restrict them only to query methods where are usefull only.
 Implements and prove the remove methods for tag and unity using repositories delete function.
+
+## Version 2.9.0-SNAPSHOT
+
+Skip the name parameter and puts the id mongodb parameter in the calls.
+Make works the createRobot, createUnity, createTag and createRelation.
+Create the methods that get unity and robot by id and by name.
+Resolve some other issues.
