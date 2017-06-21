@@ -7,6 +7,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Created by davidmartinezros on 22/04/2017.
+ * 
+ * email: davidnezan@gmail.com
+ * 
+ * web: http://davidmartinezros.com
+ */
 @Document
 public class Robot {
 	
