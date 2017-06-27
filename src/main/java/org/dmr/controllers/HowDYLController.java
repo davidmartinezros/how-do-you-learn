@@ -9,6 +9,7 @@ import org.dmr.domain.impl.TagWithUnityKnowlegdeWrapper;
 import org.dmr.domain.impl.UnityKnowledgeObject;
 import org.dmr.domain.impl.UnityKnowledgeWithRobotWrapper;
 import org.dmr.domain.impl.UnityRelationWithRobotWrapper;
+import org.dmr.domain.impl.User;
 import org.dmr.services.HowDYLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,12 +47,24 @@ public class HowDYLController {
         
     }
     
+    @RequestMapping(value = "/howdyl/createUser", method = RequestMethod.POST)
+    public User createUser(@RequestBody User user) throws Exception {
+    	
+    	return howDYLService.createUser(user);
+        
+    }
+    
+    @RequestMapping(value = "/howdyl/removeUser", method = RequestMethod.GET)
+    public User removeUser(@RequestParam("id_user") String idUser) throws Exception {
+    	
+    	return howDYLService.removeUser(idUser);
+        
+    }
+    
     @RequestMapping(value = "/howdyl/createRobot", method = RequestMethod.POST)
     public Robot createRobot(@RequestBody Robot robot) throws Exception {
     	
-    	robot = howDYLService.createRobot(robot);
-    	
-        return robot;
+    	return howDYLService.createRobot(robot);
         
     }
     
@@ -65,31 +78,33 @@ public class HowDYLController {
     @RequestMapping(value = "/howdyl/createUnity", method = RequestMethod.POST)
     public UnityKnowledgeObject createUnity(@RequestBody UnityKnowledgeWithRobotWrapper unityKnowledgeWithRobotWrapper) throws Exception {
     	
+    	String idUser = unityKnowledgeWithRobotWrapper.getIdUser();
     	String idRobot = unityKnowledgeWithRobotWrapper.getIdRobot();
     	UnityKnowledgeObject unity = unityKnowledgeWithRobotWrapper.getUnity();
     	
     	// creem la unity
-    	unity = howDYLService.createUnity(idRobot, unity);
+    	unity = howDYLService.createUnity(idUser, idRobot, unity);
     	
         return unity;
         
     }
     
     @RequestMapping(value = "/howdyl/removeUnity", method = RequestMethod.GET)
-    public void removeUnity(@RequestParam("id_unity") String idUnity) throws Exception {
+    public UnityKnowledgeObject removeUnity(@RequestParam("id_unity") String idUnity) throws Exception {
     	
-    	howDYLService.removeUnity(idUnity);
+    	return howDYLService.removeUnity(idUnity);
         
     }
     
     @RequestMapping(value = "/howdyl/createTag", method = RequestMethod.POST)
     public Tag createTag(@RequestBody TagWithUnityKnowlegdeWrapper tagWithUnityKnowlegdeWrapper) throws Exception {
     	
+    	String idUser = tagWithUnityKnowlegdeWrapper.getIdUser();
     	String idRobot = tagWithUnityKnowlegdeWrapper.getIdRobot();
     	String idUnity = tagWithUnityKnowlegdeWrapper.getIdUnity();
     	Tag tag = tagWithUnityKnowlegdeWrapper.getTag();
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnity("id", idRobot, "id", idUnity);
+    	UnityKnowledgeObject unity = howDYLService.getUnity("id", idUser, "id", idRobot, "id", idUnity);
     	
     	tag = howDYLService.createTag(unity, tag);
     	
@@ -107,13 +122,14 @@ public class HowDYLController {
     @RequestMapping(value = "/howdyl/createRelation", method = RequestMethod.POST)
     public UnityKnowledgeObject createRelation(@RequestBody UnityRelationWithRobotWrapper unityRelationWithRobotWrapper) throws Exception {
     	
+    	String idUser = unityRelationWithRobotWrapper.getIdUser();
     	String idRobot = unityRelationWithRobotWrapper.getIdRobot();
     	String idUnity = unityRelationWithRobotWrapper.getIdUnity();
     	UnityKnowledgeObject unityRelation = unityRelationWithRobotWrapper.getUnityRelation();
     	
     	unityRelation = howDYLService.createUnity(unityRelation);
     	
-    	UnityKnowledgeObject unity = howDYLService.getUnity("id", idRobot, "id", idUnity);
+    	UnityKnowledgeObject unity = howDYLService.getUnity("id", idUser, "id", idRobot, "id", idUnity);
 	    	
 	    unity.addUnity(unityRelation);
 	    
@@ -129,25 +145,25 @@ public class HowDYLController {
     	return howDYLService.removeRelation(idUnityRelation);
 	    
     }
-
-    @RequestMapping(value = "/howdyl/unity/{idRobot}/{idUnity}", method = RequestMethod.GET)
-    public UnityKnowledgeObject getUnity(@PathVariable String idRobot, @PathVariable String idUnity) throws Exception {
+    
+    @RequestMapping(value = "/howdyl/user/{idUser}", method = RequestMethod.GET)
+    public User getUser(@PathVariable String idUser) throws Exception {
     	
-    	return howDYLService.getUnity("id", idRobot, "id", idUnity);
+    	return howDYLService.getUser("id", idUser);
     	   
     }
     
-    @RequestMapping(value = "/howdyl/unityByConcept/{idRobot}/{concept}", method = RequestMethod.GET)
-    public UnityKnowledgeObject getUnityByConcept(@PathVariable String idRobot, @PathVariable String concept) throws Exception {
+    @RequestMapping(value = "/howdyl/userByNick/{nick}", method = RequestMethod.GET)
+    public User getUserByName(@PathVariable String nick) throws Exception {
     	
-    	return howDYLService.getUnity("id", idRobot, "concept", concept);
+    	return howDYLService.getUserByNick(nick);
     	   
     }
     
-    @RequestMapping(value = "/howdyl/robot/{idRobot}", method = RequestMethod.GET)
-    public Robot getRobot(@PathVariable String idRobot) throws Exception {
+    @RequestMapping(value = "/howdyl/robot/{idUser}/{idRobot}", method = RequestMethod.GET)
+    public Robot getRobot(@PathVariable String idUser, @PathVariable String idRobot) throws Exception {
     	
-    	return howDYLService.getRobot(idRobot);
+    	return howDYLService.getRobot("id", idUser, "id", idRobot);
     	   
     }
     
@@ -155,6 +171,20 @@ public class HowDYLController {
     public Robot getRobotByName(@PathVariable String robot) throws Exception {
     	
     	return howDYLService.getRobotByName(robot);
+    	   
+    }
+
+    @RequestMapping(value = "/howdyl/unity/{idUser}/{idRobot}/{idUnity}", method = RequestMethod.GET)
+    public UnityKnowledgeObject getUnity(@PathVariable String idUser, @PathVariable String idRobot, @PathVariable String idUnity) throws Exception {
+    	
+    	return howDYLService.getUnity("id", idUser, "id", idRobot, "id", idUnity);
+    	   
+    }
+    
+    @RequestMapping(value = "/howdyl/unityByConcept/{idUser}/{idRobot}/{concept}", method = RequestMethod.GET)
+    public UnityKnowledgeObject getUnityByConcept(@PathVariable String idUser, @PathVariable String idRobot, @PathVariable String concept) throws Exception {
+    	
+    	return howDYLService.getUnity("id", idUser, "id", idRobot, "concept", concept);
     	   
     }
 

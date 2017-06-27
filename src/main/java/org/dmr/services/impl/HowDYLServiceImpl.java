@@ -6,9 +6,11 @@ import java.util.List;
 import org.dmr.domain.impl.Robot;
 import org.dmr.domain.impl.Tag;
 import org.dmr.domain.impl.UnityKnowledgeObject;
+import org.dmr.domain.impl.User;
 import org.dmr.repositories.RobotRepository;
 import org.dmr.repositories.TagRepository;
 import org.dmr.repositories.UnityKnowledgeObjectRepository;
+import org.dmr.repositories.UserRepository;
 import org.dmr.services.HowDYLService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -36,10 +38,70 @@ public class HowDYLServiceImpl implements HowDYLService {
 	TagRepository repositoryTag;
 	
 	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
 	MongoOperations mongoOperation;
 
     public HowDYLServiceImpl() {
         
+    }
+    
+    // CRUD USER
+    
+    @Override
+    public User createUser(User user) {
+    	
+    	return userRepository.save(user);
+    	
+    }
+    
+    @Override
+    public User updateUser(User user) {
+    	
+    	return userRepository.save(user);
+    	
+    }
+	
+    @Override
+    public User removeUser(String idUser) {
+
+    	User user = userRepository.findById(idUser);
+    	
+    	if(user != null) {
+    		
+    		userRepository.delete(user);
+    		
+    	}
+    	
+    	return user;
+    	
+    }
+	
+    @Override
+    public User getUser(String key, Object value) {
+    	
+    	Query query = new Query();
+    	query.addCriteria(
+			Criteria.where(key).is(value)
+		);
+		
+    	return mongoOperation.findOne(query, User.class);
+    	
+    }
+	
+    @Override
+    public User getUserByNick(String nick) {
+    	
+    	return userRepository.findByNick(nick);
+    	
+    }
+	
+    @Override
+    public List<User> getListUsers() {
+    	
+    	return userRepository.findAll();
+    	
     }
     
     // CRUD ROBOT
@@ -47,18 +109,14 @@ public class HowDYLServiceImpl implements HowDYLService {
     @Override
     public Robot createRobot(Robot robot) {
     	
-    	 robot = robotRepository.save(robot);
-    	 
-    	 return robot;
+    	return robotRepository.save(robot);
     	 
     }
     
     @Override
     public Robot updateRobot(Robot robot) {
     	
-    	 robot = robotRepository.save(robot);
-    	 
-    	 return robot;
+    	return robotRepository.save(robot);
     	 
     }
     
@@ -70,6 +128,7 @@ public class HowDYLServiceImpl implements HowDYLService {
     	if(robot != null) {
     		
     		robotRepository.delete(robot);
+    		
     	}
     	
     	return robot;
@@ -83,9 +142,22 @@ public class HowDYLServiceImpl implements HowDYLService {
     }
     
     @Override
-    public Robot getRobot(String idRobot) {
+    public Robot getRobot(String keyUser, Object valueUser, String key, Object value) {
     	
-    	return robotRepository.findById(idRobot);
+    	Query query = new Query();
+    	query.addCriteria(
+			Criteria.where(keyUser).is(valueUser)
+		);
+		
+    	User user = mongoOperation.findOne(query, User.class);
+    	
+    	if(user != null) {
+    		
+    		return findRobotInUser(user.getRobots(), key, value);
+    		
+    	}
+    	
+    	return null;
     	
     }
     
@@ -106,13 +178,19 @@ public class HowDYLServiceImpl implements HowDYLService {
     }
     
     @Override
-    public UnityKnowledgeObject createUnity(String idRobot, UnityKnowledgeObject unity) {
+    public UnityKnowledgeObject createUnity(String idUser, String idRobot, UnityKnowledgeObject unity) {
         
     	unity = createUnity(unity);
     	
     	Robot robot = robotRepository.findOne(idRobot);
     	
     	robot.addUnity(unity);
+    	
+    	robot = robotRepository.save(robot);
+    	
+    	User user = userRepository.findOne(idUser);
+    	
+    	user.addRobot(robot);
     	
     	robot = robotRepository.save(robot);
     	
@@ -127,7 +205,7 @@ public class HowDYLServiceImpl implements HowDYLService {
     	
     	if(unity != null) {
     		// El delete de unity no acaba d'anar be
-    		// esborra l'element pero retorna null i acaba fent 3 reintents
+    		// falla quan hi ha un unic element a la llista
     		repositoryUnity.delete(unity);
     	
     	}
@@ -180,20 +258,64 @@ public class HowDYLServiceImpl implements HowDYLService {
     }
     
     @Override
-    public UnityKnowledgeObject getUnity(String keyRobot, Object valueRobot, String key, Object value) {
+    public UnityKnowledgeObject getUnity(String keyUser, Object valueUser, String keyRobot, Object valueRobot, String key, Object value) {
     	
     	Query query = new Query();
     	query.addCriteria(
-			Criteria.where(keyRobot).is(valueRobot)
+			Criteria.where(keyUser).is(valueUser)
 		);
 		
-    	Robot robot = mongoOperation.findOne(query, Robot.class);
+    	User user = mongoOperation.findOne(query, User.class);
     	
-    	return findUnityKnowledge(robot.getUnities(), key, value);
+    	if(user != null) {
+    		
+    		Robot robot = findRobotInUser(user.getRobots(), keyRobot, valueRobot);
+        	
+        	if(robot != null) {
+        	
+        		return findUnityKnowledgeInRobot(robot.getUnities(), key, value);
+        		
+        	}
+        	
+    	}
+    	
+    	return null;
     	
     }
     
-    private UnityKnowledgeObject findUnityKnowledge(List<UnityKnowledgeObject> list, String key, Object value) {
+    private Robot findRobotInUser(List<Robot> list, String key, Object value) {
+    	
+    	for(Robot robot: list) {
+    		
+    		if(key.equals("name")) {
+    			if(robot.getName() != null && robot.getName().equals(value)) {
+    				return robot;
+    			}
+    		} else if(key.equals("id")) {
+    			if(robot.getId() != null && robot.getId().equals(value)) {
+    				return robot;
+    			}
+    		} else if(key.equals("description")) {
+    			if(robot.getDescription() != null && robot.getDescription().equals(value)) {
+    				return robot;
+    			}
+    		} else if(key.equals("profession")) {
+    			if(robot.getProfession() != null && robot.getProfession().equals(value)) {
+    				return robot;
+    			}
+    		} else if(key.equals("age")) {
+    			if(robot.getAge() != null && robot.getAge().equals(value)) {
+    				return robot;
+    			}
+    		}
+    		
+    	}
+		
+		return null;
+		
+    }
+    
+    private UnityKnowledgeObject findUnityKnowledgeInRobot(List<UnityKnowledgeObject> list, String key, Object value) {
     	
     	for(UnityKnowledgeObject unity: list) {
     		
@@ -219,7 +341,7 @@ public class HowDYLServiceImpl implements HowDYLService {
     			}
     		}
     		
-    		UnityKnowledgeObject result = findUnityKnowledge(unity.getUnities(), key, value);
+    		UnityKnowledgeObject result = findUnityKnowledgeInRobot(unity.getUnities(), key, value);
     		
     		if(result != null) {
     			return result;

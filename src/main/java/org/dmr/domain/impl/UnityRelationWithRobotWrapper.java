@@ -1,13 +1,30 @@
 package org.dmr.domain.impl;
 
+/**
+ * Created by davidmartinezros on 18/06/2017.
+ * 
+ * email: davidnezan@gmail.com
+ * 
+ * web: http://davidmartinezros.com
+ */
 public class UnityRelationWithRobotWrapper {
-
+	
+	String idUser;
+	
 	String idRobot;
 	
 	String idUnity;
 
 	UnityKnowledgeObject unityRelation;
+	
+	public String getIdUser() {
+		return idUser;
+	}
 
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+	
 	public String getIdRobot() {
 		return idRobot;
 	}
