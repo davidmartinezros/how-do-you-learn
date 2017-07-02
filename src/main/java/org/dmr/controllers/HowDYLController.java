@@ -10,6 +10,7 @@ import org.dmr.domain.impl.UnityKnowledgeObject;
 import org.dmr.domain.impl.UnityKnowledgeWithRobotWrapper;
 import org.dmr.domain.impl.UnityRelationWithRobotWrapper;
 import org.dmr.domain.impl.User;
+import org.dmr.domain.impl.UserWrapper;
 import org.dmr.services.HowDYLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,28 +51,68 @@ public class HowDYLController {
     @RequestMapping(value = "/howdyl/createUser", method = RequestMethod.POST)
     public User createUser(@RequestBody User user) throws Exception {
     	
-    	return howDYLService.createUser(user);
+    	User result = howDYLService.createUser(user);
+    	
+    	if(result == null) {
+    		result =  new User();
+    		result.setState("KO");
+    		result.setMessage("Error al crear l'usuari");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
         
     }
     
     @RequestMapping(value = "/howdyl/removeUser", method = RequestMethod.GET)
     public User removeUser(@RequestParam("id_user") String idUser) throws Exception {
     	
-    	return howDYLService.removeUser(idUser);
+    	User result = howDYLService.removeUser(idUser);
+    	
+    	if(result == null) {
+    		result =  new User();
+    		result.setState("KO");
+    		result.setMessage("Error a l'eliminar l'usuari");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
         
     }
     
     @RequestMapping(value = "/howdyl/createRobot", method = RequestMethod.POST)
     public Robot createRobot(@RequestBody Robot robot) throws Exception {
     	
-    	return howDYLService.createRobot(robot);
+    	Robot result = howDYLService.createRobot(robot);
+    	
+    	if(result == null) {
+    		result =  new Robot();
+    		result.setState("KO");
+    		result.setMessage("Error al crear el robot");
+    	} else {
+    		result.setState("OK");
+    	}
         
+    	return result;
+    	
     }
     
     @RequestMapping(value = "/howdyl/removeRobot", method = RequestMethod.GET)
     public Robot removeRobot(@RequestParam("id_robot") String idRobot) throws Exception {
     	
-    	return howDYLService.removeRobot(idRobot);
+    	Robot result = howDYLService.removeRobot(idRobot);
+    	
+    	if(result == null) {
+    		result =  new Robot();
+    		result.setState("KO");
+    		result.setMessage("Error a l'esborrar el robot");
+    	} else {
+    		result.setState("OK");
+    	}
+        
+    	return result;
         
     }
 
@@ -83,16 +124,34 @@ public class HowDYLController {
     	UnityKnowledgeObject unity = unityKnowledgeWithRobotWrapper.getUnity();
     	
     	// creem la unity
-    	unity = howDYLService.createUnity(idUser, idRobot, unity);
+    	UnityKnowledgeObject result = howDYLService.createUnity(idUser, idRobot, unity);
     	
-        return unity;
+    	if(result == null) {
+    		result =  new UnityKnowledgeObject();
+    		result.setState("KO");
+    		result.setMessage("Error al crear la unitat");
+    	} else {
+    		result.setState("OK");
+    	}
+        
+    	return result;
         
     }
     
     @RequestMapping(value = "/howdyl/removeUnity", method = RequestMethod.GET)
     public UnityKnowledgeObject removeUnity(@RequestParam("id_unity") String idUnity) throws Exception {
     	
-    	return howDYLService.removeUnity(idUnity);
+    	UnityKnowledgeObject result = howDYLService.removeUnity(idUnity);
+    	
+    	if(result == null) {
+    		result =  new UnityKnowledgeObject();
+    		result.setState("KO");
+    		result.setMessage("Error a l'esborrar la unitat");
+    	} else {
+    		result.setState("OK");
+    	}
+        
+    	return result;
         
     }
     
@@ -106,16 +165,34 @@ public class HowDYLController {
     	
     	UnityKnowledgeObject unity = howDYLService.getUnity("id", idUser, "id", idRobot, "id", idUnity);
     	
-    	tag = howDYLService.createTag(unity, tag);
+    	Tag result = howDYLService.createTag(unity, tag);
     	
-    	return tag;
+    	if(result == null) {
+    		result =  new Tag();
+    		result.setState("KO");
+    		result.setMessage("Error al crear el tag");
+    	} else {
+    		result.setState("OK");
+    	}
+        
+    	return result;
     	
     }
     
     @RequestMapping(value = "/howdyl/removeTag", method = RequestMethod.GET)
     public Tag removeTag(@RequestParam("id_tag") String idTag) throws Exception {
     	
-    	return howDYLService.removeTag(idTag);
+    	Tag result = howDYLService.removeTag(idTag);
+    	
+    	if(result == null) {
+    		result =  new Tag();
+    		result.setState("KO");
+    		result.setMessage("Error a l'esborrar el tag");
+    	} else {
+    		result.setState("OK");
+    	}
+        
+    	return result;
     	
     }
     
@@ -127,64 +204,163 @@ public class HowDYLController {
     	String idUnity = unityRelationWithRobotWrapper.getIdUnity();
     	UnityKnowledgeObject unityRelation = unityRelationWithRobotWrapper.getUnityRelation();
     	
-    	unityRelation = howDYLService.createUnity(unityRelation);
+    	UnityKnowledgeObject result = howDYLService.createUnity(unityRelation);
     	
+    	if(result == null) {
+    		result =  new UnityKnowledgeObject();
+    		result.setState("KO");
+    		result.setMessage("Error al crear la unitat de relacio");
+    		return result;
+    	} else {
+    		result.setState("OK");
+    	}
+        
     	UnityKnowledgeObject unity = howDYLService.getUnity("id", idUser, "id", idRobot, "id", idUnity);
 	    	
-	    unity.addUnity(unityRelation);
+	    unity.addUnity(result);
 	    
 	    unity = howDYLService.updateUnity(unity);
 	    
-    	return unityRelation;
+    	return result;
     	
     }
     
     @RequestMapping(value = "/howdyl/removeRelation", method = RequestMethod.GET)
     public UnityKnowledgeObject removeRelation(@RequestParam("id_unity") String idUnity, @RequestParam("id_unity_relation") String idUnityRelation) throws Exception {
 
-    	return howDYLService.removeRelation(idUnityRelation);
+    	UnityKnowledgeObject result = howDYLService.removeRelation(idUnityRelation);
+    	
+    	if(result == null) {
+    		result =  new UnityKnowledgeObject();
+    		result.setState("KO");
+    		result.setMessage("Error a l'esborrar la unitat de relacio");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
 	    
     }
     
     @RequestMapping(value = "/howdyl/user/{idUser}", method = RequestMethod.GET)
     public User getUser(@PathVariable String idUser) throws Exception {
     	
-    	return howDYLService.getUser("id", idUser);
+    	User result = howDYLService.getUser("id", idUser);
+    	
+    	if(result == null) {
+    		result =  new User();
+    		result.setState("KO");
+    		result.setMessage("Error al consultar l'usuari");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
     	   
     }
     
     @RequestMapping(value = "/howdyl/userByNick/{nick}", method = RequestMethod.GET)
     public User getUserByName(@PathVariable String nick) throws Exception {
     	
-    	return howDYLService.getUserByNick(nick);
+    	User result = howDYLService.getUserByNick(nick);
+    	
+    	if(result == null) {
+    		result =  new User();
+    		result.setState("KO");
+    		result.setMessage("Error al consultar l'usuari");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
     	   
+    }
+    
+    @RequestMapping(value = "/howdyl/validateUser", method = RequestMethod.POST)
+    public User validateUser(@RequestBody UserWrapper userWrapper) throws Exception {
+    	
+    	String user = userWrapper.getUser();
+    	String password = userWrapper.getPassword();
+    	
+    	User result = howDYLService.validateUser(user, password);
+    	
+    	if(result == null) {
+    		result =  new User();
+    		result.setState("KO");
+    		result.setMessage("Error al validar l'usuari");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
+    	
     }
     
     @RequestMapping(value = "/howdyl/robot/{idUser}/{idRobot}", method = RequestMethod.GET)
     public Robot getRobot(@PathVariable String idUser, @PathVariable String idRobot) throws Exception {
     	
-    	return howDYLService.getRobot("id", idUser, "id", idRobot);
+    	Robot result = howDYLService.getRobot("id", idUser, "id", idRobot);
+    	
+    	if(result == null) {
+    		result =  new Robot();
+    		result.setState("KO");
+    		result.setMessage("Error al consultar el robot");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
     	   
     }
     
     @RequestMapping(value = "/howdyl/robotByName/{robot}", method = RequestMethod.GET)
     public Robot getRobotByName(@PathVariable String robot) throws Exception {
     	
-    	return howDYLService.getRobotByName(robot);
-    	   
+    	Robot result = howDYLService.getRobotByName(robot);
+    	
+    	if(result == null) {
+    		result =  new Robot();
+    		result.setState("KO");
+    		result.setMessage("Error al consultar el robot");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
+    	
     }
 
     @RequestMapping(value = "/howdyl/unity/{idUser}/{idRobot}/{idUnity}", method = RequestMethod.GET)
     public UnityKnowledgeObject getUnity(@PathVariable String idUser, @PathVariable String idRobot, @PathVariable String idUnity) throws Exception {
     	
-    	return howDYLService.getUnity("id", idUser, "id", idRobot, "id", idUnity);
+    	UnityKnowledgeObject result = howDYLService.getUnity("id", idUser, "id", idRobot, "id", idUnity);
+    	
+    	if(result == null) {
+    		result =  new UnityKnowledgeObject();
+    		result.setState("KO");
+    		result.setMessage("Error al consultar la unitat");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
     	   
     }
     
     @RequestMapping(value = "/howdyl/unityByConcept/{idUser}/{idRobot}/{concept}", method = RequestMethod.GET)
     public UnityKnowledgeObject getUnityByConcept(@PathVariable String idUser, @PathVariable String idRobot, @PathVariable String concept) throws Exception {
     	
-    	return howDYLService.getUnity("id", idUser, "id", idRobot, "concept", concept);
+    	UnityKnowledgeObject result = howDYLService.getUnity("id", idUser, "id", idRobot, "concept", concept);
+    	
+    	if(result == null) {
+    		result =  new UnityKnowledgeObject();
+    		result.setState("KO");
+    		result.setMessage("Error al consultar la unitat");
+    	} else {
+    		result.setState("OK");
+    	}
+    	
+    	return result;
     	   
     }
 
@@ -220,7 +396,7 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/listRobots", method = RequestMethod.GET)
-    public List<Robot> getListRobots() throws InterruptedException {
+    public List<Robot> getListRobots(@RequestParam("id_user") String idUser) throws InterruptedException {
 
     	final List<Robot> listRobots = new ArrayList<Robot>();
     	
@@ -244,7 +420,7 @@ public class HowDYLController {
         };
         
         CompositeDisposable compositeDisposable = new CompositeDisposable();
-        compositeDisposable.add(Flowable.just(howDYLService.getListRobots()).subscribeWith(subscriber));
+        compositeDisposable.add(Flowable.just(howDYLService.getListRobots(idUser)).subscribeWith(subscriber));
 
         return listRobots;
         

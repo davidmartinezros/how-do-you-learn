@@ -104,6 +104,20 @@ public class HowDYLServiceImpl implements HowDYLService {
     	
     }
     
+    @Override
+    public User validateUser(String user, String password) {
+    	
+    	Query query = new Query();
+    	// Criteri or del usuari
+    	Criteria criteriaUser = new Criteria();
+    	criteriaUser.orOperator(Criteria.where("nick").is(user), Criteria.where("email").is(user), Criteria.where("email").is(user));
+    	// Definim el criteria de l'usuari i la contrasenya
+    	query.addCriteria(criteriaUser.andOperator(Criteria.where("password").is(password)));
+		
+    	return mongoOperation.findOne(query, User.class);
+    	
+    }
+    
     // CRUD ROBOT
     
     @Override
@@ -162,10 +176,12 @@ public class HowDYLServiceImpl implements HowDYLService {
     }
     
     @Override
-    public List<Robot> getListRobots() {
+    public List<Robot> getListRobots(String idUser) {
     	
-    	return robotRepository.findAll();
-        
+    	User user = userRepository.findById(idUser);
+    	
+    	return user.getRobots();
+    	
     }
     
     @Override

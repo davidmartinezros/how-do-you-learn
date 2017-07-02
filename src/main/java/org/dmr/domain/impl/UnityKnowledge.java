@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dmr.domain.UnityKnowledgeType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 /**
@@ -37,12 +36,15 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     // Criteris pels que pots buscar la unitat de coneixement
 	@DBRef
 	private List<Tag> tags;
-    // Relacions amb altres unitats de coneixement
+    // estat
+	@Transient
+	private String state;
+	// missatge
+	@Transient
+	private String message;
+	// Relacions amb altres unitats de coneixement
 	@DBRef
 	private List<UnityKnowledgeObject> unities;
-	
-	@Autowired
-    MongoTemplate mongoTemplate;
     
     public UnityKnowledge() {
     	//inicialitzem llistats
@@ -177,6 +179,22 @@ public class UnityKnowledge<T> implements UnityKnowledgeType<T> {
     	}
     
     }
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	@Override
 	public int hashCode() {

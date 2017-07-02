@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -25,13 +26,19 @@ public class User {
 	// contrasenya  de l'usuari
 	private String password;
 	// nom  de l'usuari
-	private String name;
+	private String firstName;
 	// cognoms  de l'usuari
-	private String surname;
+	private String lastName;
 	// email de l'usuari
 	private String email;
 	// telefon de l'usuari
 	private String telephone;
+	// estat login
+	@Transient
+	private String state;
+	// missatge login
+	@Transient
+	private String message;
 	
 	// llistats de robots que te l'usuari
 	@DBRef
@@ -45,18 +52,28 @@ public class User {
 	
 	public User(String nick, String password) {
 		
+		this();
+		
 		this.nick = nick;
 		this.password = password;
 		
 	}
 	
-	public User(String nick, String password, String name, String surname, String email, String telephone) {
+	public User(String nick, String password, String firstName, String lastName, String email, String telephone) {
 		
 		this(nick, password);
-		this.name = name;
-		this.surname = surname;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.telephone = telephone;
+		
+	}
+	
+	public User(String nick, String password, String firstName, String lastName, String email, String telephone, String state, String message) {
+		
+		this(nick, password, firstName, lastName, email, telephone);
+		this.state = state;
+		this.message = message;
 		
 	}
 	
@@ -84,20 +101,20 @@ public class User {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getSurname() {
-		return surname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setSurname(String surname) {
-		this.surname = surname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -143,5 +160,21 @@ public class User {
     	}
     
     }
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	
 }

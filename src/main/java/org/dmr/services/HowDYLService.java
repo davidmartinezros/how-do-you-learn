@@ -26,6 +26,8 @@ public interface HowDYLService {
 	
 	List<User> getListUsers();
 	
+	User validateUser(String user, String password);
+	
 	// CRUD ROBOT
 	
 	Robot createRobot(Robot robot);
@@ -38,7 +40,7 @@ public interface HowDYLService {
 	
 	Robot getRobotByName(String name);
 	
-	List<Robot> getListRobots();
+	List<Robot> getListRobots(String idUser);
 	
 	//-->
 	

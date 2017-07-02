@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -29,6 +30,12 @@ public class Robot {
 	// descripcio / caracteristiques del robot
 	private String description;
 	// unitats de coneixement del robot
+	// estat
+	@Transient
+	private String state;
+	// missatge
+	@Transient
+	private String message;
 	@DBRef
 	private List<UnityKnowledgeObject> unities;
 	
@@ -116,6 +123,22 @@ public class Robot {
     	}
     
     }
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	@Override
 	public int hashCode() {
