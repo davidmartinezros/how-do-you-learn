@@ -37,7 +37,7 @@ import io.reactivex.subscribers.ResourceSubscriber;
  */
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://davidmartinezros.com")
+@CrossOrigin(origins = "*")
 public class HowDYLController {
 	
 	@Autowired
