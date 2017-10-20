@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.dmr.domain.impl.Robot;
+import org.dmr.domain.impl.RobotWrapper;
 import org.dmr.domain.impl.Tag;
 import org.dmr.domain.impl.TagWithUnityKnowlegdeWrapper;
 import org.dmr.domain.impl.UnityKnowledgeObject;
@@ -83,7 +84,10 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/createRobot", method = RequestMethod.POST)
-    public Robot createRobot(@RequestBody Robot robot) throws Exception {
+    public Robot createRobot(@RequestBody RobotWrapper robotWrapper) throws Exception {
+    	
+    	String idUser = robotWrapper.getIdUser();
+    	Robot robot = robotWrapper.getRobot();
     	
     	Robot result = howDYLService.createRobot(robot);
     	
@@ -94,6 +98,12 @@ public class HowDYLController {
     	} else {
     		result.setState("OK");
     	}
+    	
+    	User user = howDYLService.getUser("id", idUser);
+    	
+    	user.addRobot(result);
+    	
+    	user = howDYLService.updateUser(user);
         
     	return result;
     	
