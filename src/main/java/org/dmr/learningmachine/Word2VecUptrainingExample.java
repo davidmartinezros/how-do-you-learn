@@ -136,10 +136,10 @@ public class Word2VecUptrainingExample {
         Collection<String> lst = getWordsNearest(vec, "day", 10);
         
         // Grabem
-        writeFullModel(vec, "pathToSaveModel.txt");
+        writeFullModel(vec, "/deeplearning4j/pathToSaveModel.txt");
         
         // Carreguem
-        Word2Vec word2Vec = loadFullModel("pathToSaveModel.txt");
+        Word2Vec word2Vec = loadFullModel("/deeplearning4j/pathToSaveModel.txt");
 
         /*
          * PLEASE NOTE: after model is restored, it's still required to set SentenceIterator and TokenizerFactory, if you're going to train this model
@@ -164,7 +164,7 @@ public class Word2VecUptrainingExample {
     	String filePath = defineFilePath("raw_sentences.txt");
     	
     	// Carreguem
-        Word2Vec word2Vec = loadFullModel("pathToSaveModel.txt");
+        Word2Vec word2Vec = loadFullModel("/deeplearning4j/pathToSaveModel.txt");
 
         /*
          * PLEASE NOTE: after model is restored, it's still required to set SentenceIterator and TokenizerFactory, if you're going to train this model
@@ -196,7 +196,7 @@ public class Word2VecUptrainingExample {
         Collection<String> lst = getWordsNearest(vec, word, 10);
         
         // Grabem
-        writeFullModel(vec, "pathToSaveModel.txt");
+        writeFullModel(vec, "/deeplearning4j/pathToSaveModel.txt");
         
         return lst;           
     }
