@@ -89,7 +89,7 @@ public class Word2VecUptrainingExample {
         return vec;
     }
     
-    public static void train(Word2Vec vec) {
+    public static void prepareForTraining(Word2Vec vec) {
     	
     	log.info("Fitting Word2Vec model....");
         vec.fit();
@@ -98,7 +98,7 @@ public class Word2VecUptrainingExample {
     public static Collection<String> getWordsNearest(Word2Vec vec, String word, int amount) {
     	
     	Collection<String> lst = vec.wordsNearest(word, amount);
-        log.info("Closest words to 'day' on 1st run: " + lst);
+        log.info("Closest words to" + word + " on 1st run: " + lst);
         
         return lst;
     }
@@ -131,7 +131,7 @@ public class Word2VecUptrainingExample {
 
         Word2Vec vec = createModel(iter,t);
 
-        train(vec);
+        prepareForTraining(vec);
 
         Collection<String> lst = getWordsNearest(vec, "day", 10);
         
@@ -153,13 +153,13 @@ public class Word2VecUptrainingExample {
 
         log.info("Word2vec uptraining...");
 
-        train(word2Vec);
+        prepareForTraining(word2Vec);
 
         lst = getWordsNearest(vec, "day", 10);
 	    
     }
     
-    public void execute(String word) throws Exception {
+    public static Collection<String> execute(String word) throws Exception {
     	
     	String filePath = defineFilePath("raw_sentences.txt");
     	
@@ -176,15 +176,12 @@ public class Word2VecUptrainingExample {
         word2Vec.setTokenizerFactory(t2);
         word2Vec.setSentenceIterator(iter2);
 
-        log.info("Word2vec uptraining...");
-
-        train(word2Vec);
-
         Collection<String> lst = getWordsNearest(word2Vec, word, 10);
-           
+        
+        return lst;
     }
     
-    public void train(String word) throws Exception {
+    public static Collection<String> train(String word) throws Exception {
     	
         String filePath = defineFilePath("raw_sentences.txt");
 
@@ -194,12 +191,13 @@ public class Word2VecUptrainingExample {
 
         Word2Vec vec = createModel(iter,t);
 
-        train(vec);
+        prepareForTraining(vec);
 
         Collection<String> lst = getWordsNearest(vec, word, 10);
         
         // Grabem
         writeFullModel(vec, "pathToSaveModel.txt");
-           
+        
+        return lst;           
     }
 }

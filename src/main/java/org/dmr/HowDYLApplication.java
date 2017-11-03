@@ -13,15 +13,15 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  * web: http://davidmartinezros.com
  */
 @SpringBootApplication
-public class LruCacheApplication extends SpringBootServletInitializer {
+public class HowDYLApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LruCacheApplication.class, args);
+		SpringApplication.run(HowDYLApplication.class, args);
 	}
 	
 	@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(LruCacheApplication.class);
+        return application.sources(HowDYLApplication.class);
     }
 	
 }

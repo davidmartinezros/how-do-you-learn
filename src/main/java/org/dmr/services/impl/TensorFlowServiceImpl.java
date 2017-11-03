@@ -1,5 +1,7 @@
 package org.dmr.services.impl;
 
+import java.util.Collection;
+
 import org.dmr.learningmachine.Word2VecUptrainingExample;
 import org.dmr.services.HowDYLService;
 import org.dmr.services.TensorFlowService;
@@ -23,10 +25,31 @@ public class TensorFlowServiceImpl implements TensorFlowService {
         
     }
     
-    public void aaa() throws Exception {
+    @Override
+    public Collection<String> execute(String word) throws Exception {
     	
-    	Word2VecUptrainingExample.main(null);
+    	// Executem la LM amb la paraula word
+    	Collection<String> lst = Word2VecUptrainingExample.execute(word);
+//    	// Creem la paraula word amb la relacio mes propera
+//    	UnityKnowledgeObject unity = new UnityKnowledgeObject();
+//    	unity.setConcept(word);
+//    	UnityKnowledgeObject unityRel = new UnityKnowledgeObject();
+//    	unityRel.setConcept(lst.toArray()[0]);
+//    	unity.addUnity(unityRel);
+//    	howDYLService.createUnity(unity);
+//    	// Retornem la unitat de coneixement creada
+//    	return unity;
+    	return lst;
+    	
+    }
     
-    } 
+    @Override
+    public Collection<String> train(String word) throws Exception {
+    	// Entrenem la LM amb la paraula word
+    	Collection<String> lst = Word2VecUptrainingExample.train(word);
+    	
+    	return lst;
+    
+    }
     	
 }
