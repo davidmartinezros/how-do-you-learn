@@ -1,9 +1,9 @@
 package org.dmr.learningmachine;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Collection;
 
-import org.datavec.api.util.ClassPathResource;
 import org.deeplearning4j.models.embeddings.WeightLookupTable;
 import org.deeplearning4j.models.embeddings.inmemory.InMemoryLookupTable;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
@@ -32,32 +32,23 @@ public class Word2VecUptrainingExample {
 
     private static Logger log = LoggerFactory.getLogger(Word2VecUptrainingExample.class);
     
-    public static String defineFilePath(String fileName) throws FileNotFoundException {
-    	/*
-         * Initial model training phase
-		 */
-    	log.info("defineFilePath");
-    	
-		return new ClassPathResource(fileName).getFile().getAbsolutePath();
-    }
-    
     public static SentenceIterator defineSentenceItetator(String filePath) throws FileNotFoundException {
     	/*
     	 * Strip white space before and after for each line
     	 */
     	log.info("defineSenteceItetator");
     	
-        return new BasicLineIterator(filePath);
+        return new BasicLineIterator(new File(filePath));
     }
     
     public static TokenizerFactory defineTokenizerFactory() {
     	/*
     	 * Split on white spaces in the line to get words
     	 */
+    	log.info("defineTokenizerFactory");
+    	
         TokenizerFactory t = new DefaultTokenizerFactory();
         t.setTokenPreProcessor(new CommonPreprocessor());
-        
-        log.info("defineTokenizerFactory");
         
         return t;
     }
@@ -120,57 +111,23 @@ public class Word2VecUptrainingExample {
 	     */
 	    return WordVectorSerializer.loadFullModel(pathFileToSave);
     }
-
-    public static void main(String[] args) throws Exception {
-    	
-        String filePath = defineFilePath("raw_sentences.txt");
-
-        log.info("Load & Vectorize Sentences....");
-        SentenceIterator iter = defineSentenceItetator(filePath);
-        TokenizerFactory t    = defineTokenizerFactory();
-
-        Word2Vec vec = createModel(iter,t);
-
-        prepareForTraining(vec);
-
-        Collection<String> lst = getWordsNearest(vec, "day", 10);
-        
-        // Grabem
-        writeFullModel(vec, "/deeplearning4j/pathToSaveModel.txt");
-        
-        // Carreguem
-        Word2Vec word2Vec = loadFullModel("/deeplearning4j/pathToSaveModel.txt");
-
-        /*
-         * PLEASE NOTE: after model is restored, it's still required to set SentenceIterator and TokenizerFactory, if you're going to train this model
-         */
-        log.info("Load & Vectorize Sentences....");
-        SentenceIterator iter2 = defineSentenceItetator(filePath);
-        TokenizerFactory t2    = defineTokenizerFactory();
-
-        word2Vec.setTokenizerFactory(t2);
-        word2Vec.setSentenceIterator(iter2);
-
-        log.info("Word2vec uptraining...");
-
-        prepareForTraining(word2Vec);
-
-        lst = getWordsNearest(vec, "day", 10);
-	    
-    }
     
-    public static Collection<String> execute(String word) throws Exception {
+    public static Collection<String> execute(String word, String theme, String version, String data) throws Exception {
+
+    	//(p.ex. "LM_FILE_" + TEMA_VERSIO_DATA(dd_MM_yyyy).txt)
+    	//(p.ex. "TRAIN_FILE_" + TEMA_VERSIO_DATA(dd_MM_yyyy).txt)
     	
-    	String filePath = defineFilePath("raw_sentences.txt");
+    	String filePathPrasesTheme = "/deeplearning4j/" + theme + "_" + version + "_" + data + "_LM_FILE.txt";
+    	String filePathSavedModel = "/deeplearning4j/" + theme + "_" + version + "_" + data + "_TRAIN_FILE.txt";
     	
     	// Carreguem
-        Word2Vec word2Vec = loadFullModel("/deeplearning4j/pathToSaveModel.txt");
+        Word2Vec word2Vec = loadFullModel(filePathSavedModel);
 
         /*
          * PLEASE NOTE: after model is restored, it's still required to set SentenceIterator and TokenizerFactory, if you're going to train this model
          */
         log.info("Load & Vectorize Sentences....");
-        SentenceIterator iter2 = defineSentenceItetator(filePath);
+        SentenceIterator iter2 = defineSentenceItetator(filePathPrasesTheme);
         TokenizerFactory t2    = defineTokenizerFactory();
 
         word2Vec.setTokenizerFactory(t2);
@@ -181,12 +138,16 @@ public class Word2VecUptrainingExample {
         return lst;
     }
     
-    public static Collection<String> train(String word) throws Exception {
+    public static Collection<String> train(String word, String theme, String version, String data) throws Exception {
     	
-        String filePath = defineFilePath("raw_sentences.txt");
+    	//(p.ex. "LM_FILE_" + TEMA_VERSIO_DATA(dd_MM_yyyy).txt)
+    	//(p.ex. "TRAIN_FILE_" + TEMA_VERSIO_DATA(dd_MM_yyyy).txt)
 
+    	String filePathPrasesTheme = "/deeplearning4j/" + theme + "_" + version + "_" + data + "_LM_FILE.txt";
+    	String filePathSavedModel = "/deeplearning4j/" + theme + "_" + version + "_" + data + "_TRAIN_FILE.txt";
+    	
         log.info("Load & Vectorize Sentences....");
-        SentenceIterator iter = defineSentenceItetator(filePath);
+        SentenceIterator iter = defineSentenceItetator(filePathPrasesTheme);
         TokenizerFactory t    = defineTokenizerFactory();
 
         Word2Vec vec = createModel(iter,t);
@@ -196,7 +157,7 @@ public class Word2VecUptrainingExample {
         Collection<String> lst = getWordsNearest(vec, word, 10);
         
         // Grabem
-        writeFullModel(vec, "/deeplearning4j/pathToSaveModel.txt");
+        writeFullModel(vec, filePathSavedModel);
         
         return lst;           
     }

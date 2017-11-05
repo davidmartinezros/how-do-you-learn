@@ -55,18 +55,26 @@ public class HowDYLController {
     }
     
     @RequestMapping(value = "/howdyl/trainLM", method = RequestMethod.GET)
-    public Collection<String> trainLM(@RequestParam("word") String word) throws Exception {
+    public Collection<String> trainLM(
+    		@RequestParam("word") String word,
+    		@RequestParam("theme") String theme,
+    		@RequestParam("version") String version,
+    		@RequestParam("data") String data) throws Exception {
     	
-    	Collection<String> lst = tensorFlowService.train(word);
+    	Collection<String> lst = tensorFlowService.train(word, theme, version, data);
     	
     	return lst;
     	
     }
     
     @RequestMapping(value = "/howdyl/executeLM", method = RequestMethod.GET)
-    public Collection<String> execute(@RequestParam("word") String word) throws Exception {
+    public Collection<String> execute(
+    		@RequestParam("word") String word,
+    		@RequestParam("theme") String theme,
+    		@RequestParam("version") String version,
+    		@RequestParam("data") String data) throws Exception {
     	
-    	Collection<String> lst = tensorFlowService.execute(word);
+    	Collection<String> lst = tensorFlowService.execute(word, theme, version, data);
     	
     	return lst;
     	

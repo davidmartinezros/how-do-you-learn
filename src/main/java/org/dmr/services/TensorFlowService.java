@@ -7,8 +7,8 @@ import java.util.Collection;
  */
 public interface TensorFlowService {
 	
-	public Collection<String> execute(String word) throws Exception;
+	public Collection<String> execute(String word, String theme, String version, String data) throws Exception;
 	
-	public Collection<String> train(String word) throws Exception;
+	public Collection<String> train(String word, String theme, String version, String data) throws Exception;
     
 }
