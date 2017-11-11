@@ -13,6 +13,7 @@ import org.dmr.domain.impl.UnityKnowledgeWithRobotWrapper;
 import org.dmr.domain.impl.UnityRelationWithRobotWrapper;
 import org.dmr.domain.impl.User;
 import org.dmr.domain.impl.UserWrapper;
+import org.dmr.services.ConstructPhrasesService;
 import org.dmr.services.HowDYLService;
 import org.dmr.services.TensorFlowService;
 import org.slf4j.Logger;
@@ -48,20 +49,32 @@ public class HowDYLController {
 	@Autowired
     private TensorFlowService tensorFlowService;
 	
+	@Autowired
+	private ConstructPhrasesService constructPhrasesService;
+	
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     
     public HowDYLController() {
         
     }
     
+    @RequestMapping(value = "/howdyl/constructPhrase", method = RequestMethod.GET)
+    public String constructPhrase(
+    		@RequestParam("theme") String theme,
+    		@RequestParam("phrase") String phrase) throws Exception {
+    	
+    	constructPhrasesService.constructPhrase(theme, phrase);
+    	
+    	return "Added: " + phrase;
+    	
+    }
+    
     @RequestMapping(value = "/howdyl/trainLM", method = RequestMethod.GET)
     public Collection<String> trainLM(
-    		@RequestParam("word") String word,
     		@RequestParam("theme") String theme,
-    		@RequestParam("version") String version,
-    		@RequestParam("data") String data) throws Exception {
+    		@RequestParam("word") String word) throws Exception {
     	
-    	Collection<String> lst = tensorFlowService.train(word, theme, version, data);
+    	Collection<String> lst = tensorFlowService.train(word, theme);
     	
     	return lst;
     	
@@ -69,12 +82,10 @@ public class HowDYLController {
     
     @RequestMapping(value = "/howdyl/executeLM", method = RequestMethod.GET)
     public Collection<String> execute(
-    		@RequestParam("word") String word,
     		@RequestParam("theme") String theme,
-    		@RequestParam("version") String version,
-    		@RequestParam("data") String data) throws Exception {
+    		@RequestParam("word") String word) throws Exception {
     	
-    	Collection<String> lst = tensorFlowService.execute(word, theme, version, data);
+    	Collection<String> lst = tensorFlowService.execute(word, theme);
     	
     	return lst;
     	

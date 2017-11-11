@@ -26,10 +26,10 @@ public class TensorFlowServiceImpl implements TensorFlowService {
     }
     
     @Override
-    public Collection<String> execute(String word, String theme, String version, String data) throws Exception {
+    public Collection<String> execute(String word, String theme) throws Exception {
     	
     	// Executem la LM amb la paraula word
-    	Collection<String> lst = Word2VecUptrainingExample.execute(word, theme, version, data);
+    	Collection<String> lst = Word2VecUptrainingExample.execute(word, theme);
 //    	// Creem la paraula word amb la relacio mes propera
 //    	UnityKnowledgeObject unity = new UnityKnowledgeObject();
 //    	unity.setConcept(word);
@@ -44,9 +44,9 @@ public class TensorFlowServiceImpl implements TensorFlowService {
     }
     
     @Override
-    public Collection<String> train(String word, String theme, String version, String data) throws Exception {
+    public Collection<String> train(String word, String theme) throws Exception {
     	// Entrenem la LM amb la paraula word
-    	Collection<String> lst = Word2VecUptrainingExample.train(word, theme, version, data);
+    	Collection<String> lst = Word2VecUptrainingExample.train(word, theme);
     	
     	return lst;
     

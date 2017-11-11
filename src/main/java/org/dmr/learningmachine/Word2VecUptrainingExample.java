@@ -112,13 +112,13 @@ public class Word2VecUptrainingExample {
 	    return WordVectorSerializer.loadFullModel(pathFileToSave);
     }
     
-    public static Collection<String> execute(String word, String theme, String version, String data) throws Exception {
+    public static Collection<String> execute(String word, String theme) throws Exception {
 
     	//(p.ex. "LM_FILE_" + TEMA_VERSIO_DATA(dd_MM_yyyy).txt)
     	//(p.ex. "TRAIN_FILE_" + TEMA_VERSIO_DATA(dd_MM_yyyy).txt)
     	
-    	String filePathPrasesTheme = "/deeplearning4j/" + theme + "_" + version + "_" + data + "_LM_FILE.txt";
-    	String filePathSavedModel = "/deeplearning4j/" + theme + "_" + version + "_" + data + "_TRAIN_FILE.txt";
+    	String filePathPrasesTheme = "/deeplearning4j/" + theme + "_PHRASES_FILE.txt";
+    	String filePathSavedModel = "/deeplearning4j/" + theme + "_TRAIN_FILE.txt";
     	
     	// Carreguem
         Word2Vec word2Vec = loadFullModel(filePathSavedModel);
@@ -138,13 +138,13 @@ public class Word2VecUptrainingExample {
         return lst;
     }
     
-    public static Collection<String> train(String word, String theme, String version, String data) throws Exception {
+    public static Collection<String> train(String word, String theme) throws Exception {
     	
     	//(p.ex. "LM_FILE_" + TEMA_VERSIO_DATA(dd_MM_yyyy).txt)
     	//(p.ex. "TRAIN_FILE_" + TEMA_VERSIO_DATA(dd_MM_yyyy).txt)
 
-    	String filePathPrasesTheme = "/deeplearning4j/" + theme + "_" + version + "_" + data + "_LM_FILE.txt";
-    	String filePathSavedModel = "/deeplearning4j/" + theme + "_" + version + "_" + data + "_TRAIN_FILE.txt";
+    	String filePathPrasesTheme = "/deeplearning4j/" + theme + "_PHRASES_FILE.txt";
+    	String filePathSavedModel = "/deeplearning4j/" + theme + "_TRAIN_FILE.txt";
     	
         log.info("Load & Vectorize Sentences....");
         SentenceIterator iter = defineSentenceItetator(filePathPrasesTheme);
