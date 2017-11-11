@@ -87,3 +87,15 @@ Skip the name parameter and puts the id mongodb parameter in the calls.
 Make works the createRobot, createUnity, createTag and createRelation.
 Create the methods that get unity and robot by id and by name.
 Resolve some other issues.
+
+## Version 3.0.0-SNAPSHOT
+
+Implements the learning machine trainning and the learning machine execution with org.deeplearning4j
+
+## Version 3.1.0-SNAPSHOT
+
+Make the train and execute call setting the theme, version and data for generating differents files with differents themes
+
+## Version 3.2.0-SNAPSHOT
+
+Implements the ws get rest call of constructPhrase that add a phrase to a theme file
