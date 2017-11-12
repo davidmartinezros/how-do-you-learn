@@ -1,7 +1,6 @@
 package org.dmr.controllers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.dmr.domain.impl.Robot;
@@ -13,9 +12,7 @@ import org.dmr.domain.impl.UnityKnowledgeWithRobotWrapper;
 import org.dmr.domain.impl.UnityRelationWithRobotWrapper;
 import org.dmr.domain.impl.User;
 import org.dmr.domain.impl.UserWrapper;
-import org.dmr.services.ConstructPhrasesService;
 import org.dmr.services.HowDYLService;
-import org.dmr.services.TensorFlowService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,49 +43,10 @@ public class HowDYLController {
 	@Autowired
     private HowDYLService howDYLService;
 	
-	@Autowired
-    private TensorFlowService tensorFlowService;
-	
-	@Autowired
-	private ConstructPhrasesService constructPhrasesService;
-	
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     
     public HowDYLController() {
         
-    }
-    
-    @RequestMapping(value = "/howdyl/constructPhrase", method = RequestMethod.GET)
-    public String constructPhrase(
-    		@RequestParam("theme") String theme,
-    		@RequestParam("phrase") String phrase) throws Exception {
-    	
-    	constructPhrasesService.constructPhrase(theme, phrase);
-    	
-    	return "Added: " + phrase;
-    	
-    }
-    
-    @RequestMapping(value = "/howdyl/trainLM", method = RequestMethod.GET)
-    public Collection<String> trainLM(
-    		@RequestParam("theme") String theme,
-    		@RequestParam("word") String word) throws Exception {
-    	
-    	Collection<String> lst = tensorFlowService.train(word, theme);
-    	
-    	return lst;
-    	
-    }
-    
-    @RequestMapping(value = "/howdyl/executeLM", method = RequestMethod.GET)
-    public Collection<String> execute(
-    		@RequestParam("theme") String theme,
-    		@RequestParam("word") String word) throws Exception {
-    	
-    	Collection<String> lst = tensorFlowService.execute(word, theme);
-    	
-    	return lst;
-    	
     }
     
     @RequestMapping(value = "/howdyl/createUser", method = RequestMethod.POST)
