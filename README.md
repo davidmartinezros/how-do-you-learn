@@ -90,12 +90,17 @@ Resolve some other issues.
 
 ## Version 3.0.0-SNAPSHOT
 
-Implements the learning machine trainning and the learning machine execution with org.deeplearning4j
+Implements the learning machine trainning and the learning machine execution with org.deeplearning4j.
 
 ## Version 3.1.0-SNAPSHOT
 
-Make the train and execute call setting the theme, version and data for generating differents files with differents themes
+Make the train and execute call setting the theme, version and data for generating differents files with differents themes.
 
 ## Version 3.2.0-SNAPSHOT
 
-Implements the ws get rest call of constructPhrase that add a phrase to a theme file
+Implements the ws get rest call of constructPhrase that add a phrase to a theme file.
+
+## Version 3.3.1-SNAPSHOT
+
+Skip the code for deeplearning4j.
+Add dependency actuator for view app information like /health for show the state of the app and /mappings for shot the rest published services.
