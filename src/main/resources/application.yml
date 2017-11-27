@@ -10,14 +10,7 @@ spring:
         # Només ho activem quan volem fer canvis a la BD perquè fa 
         # que l'aplicació trigui molt en arrencar
         # generate-ddl: true    
-        show-sql: true            
-    mail:
-        host: smtp.gmail.com
-        port: 587
-        username: davidnezan@gmail.com
-        password: 3david35        
-        smtp.auth: true
-        smtp.starttls.enable: true
+        show-sql: true
         
 hibernate:
     showSql: true
